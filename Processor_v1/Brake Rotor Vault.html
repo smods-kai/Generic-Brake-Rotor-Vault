@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RotorVault - Premium Rotor Database</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+.import-panel{
+
+    position:fixed;
+
+    top:80px;
+
+    right:140px;
+
+    width:30%;
+
+    height:60%;
+
+    min-height:500px;
+
+    background:#111;
+
+    border:1px solid #d4a017;
+
+    border-radius:12px;
+
+    display:none;
+
+    flex-direction:column;
+
+    z-index:9999;
+
+    overflow:hidden;
+
+    box-shadow:0 0 20px rgba(0,0,0,.6);
+
+
+}
+
+.import-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px;
+
+    border-bottom:1px solid rgba(212,160,23,.3);
+
+}
+
+.import-header h3{
+
+    color:#d4a017;
+
+}
+
+.import-header button{
+
+    background:none;
+
+    border:none;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+.import-rows{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:10px;
+
+}
+
+.import-actions{
+
+    padding:10px;
+
+    border-top:1px solid rgba(212,160,23,.3);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.import-table-header{
+
+    display:grid;
+
+    grid-template-columns:
+    90px   /* ID */
+    90px   /* Family */
+    110px  /* Prefix */
+    80px   /* Type */
+    50px   /* Pair */
+    80px   /* Pos */
+    50px   /* Lug */
+    50px   /* Pads */
+    50px   /* HW */
+    40px;  /* Img */
+}
+
+.import-row{
+
+    display:grid;
+
+    grid-template-columns:
+    90px
+    90px
+    110px
+    80px
+    50px
+    80px
+    50px
+    50px
+    50px
+    40px;
+
+}
+
+.import-row input,
+.import-row select{
+
+    height:28px;
+
+    background:#1b1b1b;
+
+    color:white;
+
+    border:1px solid #333;
+
+    border-radius:4px;
+
+    font-size:11px;
+
+    padding:2px 4px;
+
+    text-align:center;
+
+}
+
+.import-row .img-fixed{
+
+    text-align:center;
+
+    color:#d4a017;
+
+    font-weight:700;
+
+}
+
+body{
+    background:#0b0b0b;
+    color:#fff;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+header{
+    background:#111;
+    border-bottom:2px solid #d4a017;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo h1{
+    color:#d4a017;
+}
+
+.logo p{
+    font-size:12px;
+    color:#aaa;
+}
+
+.admin-btn{
+    background:#d4a017;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.main{
+    flex:1;
+    display:flex;
+}
+
+.sidebar{
+    width:260px;
+    background:#111;
+    border-right:1px solid #333;
+    padding:20px;
+}
+
+.sidebar h2{
+    color:#d4a017;
+    margin-bottom:20px;
+}
+
+.filter-group{
+    margin-bottom:20px;
+}
+
+.filter-group label{
+    display:block;
+    margin-bottom:8px;
+}
+
+.filter-group input,
+.filter-group select{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+}
+
+.sidebar button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.search-btn{
+    background:#d4a017;
+}
+
+.reset-btn{
+    background:#333;
+    color:white;
+}
+
+.content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.results-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:20px 20px 0 20px;
+}
+
+.results-header h2{
+    color:white;
+    font-size:32px;
+}
+
+.results-header span{
+    color:#d4a017;
+    font-size:20px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+    overflow:auto;
+    max-height:50%;
+}
+
+.card{
+    background:#111;
+    border:1px solid rgba(212,160,23,.35);
+    border-radius:12px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.card:hover{
+    border-color:#d4a017;
+    box-shadow:0 0 15px rgba(212,160,23,.25);
+    transform:translateY(-3px);
+}
+
+.card:hover{
+    border-color:#d4a017;
+    transform:translateY(-3px);
+}
+
+.card img{
+    width:100%;
+    height:240px;
+    object-fit:cover;
+    background:#000;
+}
+
+.card-content{
+    padding:15px;
+}
+
+.card-title{
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.card-sub{
+    color:#ddd;
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.preview{
+    border-top:1px solid #333;
+    background:#0f0f0f;
+    padding:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        90px
+        450px
+        1fr
+        280px;
+
+    gap:30px;
+
+    min-height:420px;
+}
+
+.preview-image{
+    width:100%;
+}
+
+.preview-image{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.preview-image img{
+    max-width:100%;
+    max-height:500px;
+
+    width:auto;
+    height:auto;
+
+    object-fit:contain;
+}
+
+.preview-info{
+    flex:1;
+}
+
+.preview-info h2{
+    color:#d4a017;
+    margin-bottom:15px;
+}
+
+.specs{
+    line-height:2;
+}
+
+.download-btn{
+    margin-top:20px;
+    background:#d4a017;
+    border:none;
+    padding:12px 25px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.view-btn{
+    width:100%;
+    margin-top:15px;
+    height:50px;
+    background:transparent;
+    border:1px solid rgba(212,160,23,.4);
+    color:#d4a017;
+    font-weight:700;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.view-btn:hover{
+    background:#d4a017;
+    color:black;
+}
+
+.thumb-column{
+    height:260px;
+
+    overflow-y:auto;
+
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+
+    padding-right:6px;
+}
+
+.thumb{
+    width:70px;
+    height:70px;
+
+    border:1px solid rgba(212,160,23,.3);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#d4a017;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+.thumb-img{
+    width:72px;
+    height:72px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+    border:1px solid rgba(212,160,23,.3);
+
+    transition:.25s ease;
+
+    cursor:pointer;
+
+    flex-shrink:0;
+}
+
+.thumb-img:hover{
+    border-color:#d4a017;
+    box-shadow:0 0 10px rgba(212,160,23,.4);
+}
+
+.thumb-column::-webkit-scrollbar{
+    width:4px;
+}
+
+.thumb-column::-webkit-scrollbar-track{
+    background:#111;
+}
+
+.thumb-column::-webkit-scrollbar-thumb{
+    background:#d4a017;
+    border-radius:10px;
+}
+
+.thumb-img.active{
+
+    border:2px solid #d4a017;
+
+    box-shadow:
+    0 0 15px rgba(212,160,23,.5);
+
+    transform:scale(1.05);
+}
+
+.thumb-column{
+    scroll-behavior:smooth;
+}
+
+.spec-title{
+
+    color:#d4a017;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid rgba(212,160,23,.3);
+
+}
+
+.spec-row{
+
+    display:flex;
+
+    margin-bottom:14px;
+
+}
+
+.spec-label{
+
+    width:140px;
+
+    color:#a8a8a8;
+
+    font-weight:600;
+
+}
+
+.spec-row span:last-child{
+
+    color:white;
+
+}
+
+.set-status{
+
+    margin-top:10px;
+
+    font-weight:700;
+
+    color:#888;
+
+}
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.85);
+
+    z-index:9999;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.modal-content{
+
+    width:700px;
+
+    background:#111;
+
+    border:1px solid #d4a017;
+
+    border-radius:12px;
+
+    padding:25px;
+
+}
+
+.modal-content h2{
+
+    color:#d4a017;
+
+    margin-bottom:20px;
+
+}
+
+.modal textarea{
+
+    width:100%;
+
+    height:150px;
+
+    background:#1b1b1b;
+
+    color:white;
+
+    border:1px solid #333;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+    resize:vertical;
+
+}
+
+.modal button{
+
+    width:100%;
+
+    height:50px;
+
+    margin-bottom:15px;
+
+    background:#d4a017;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+* {
+    caret-color: transparent;
+}
+
+input,
+textarea {
+    caret-color: auto;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h1>ROTORVAULT</h1>
+        <p>Premium Rotor Database</p>
+    </div>
+
+        <button id="importBtn" class="admin-btn">
+            IMPORT SETS
+        </button>
+</header>
+
+<div class="main">
+
+    <div class="sidebar">
+
+        <h2>FILTERS</h2>
+
+        <div class="filter-group">
+
+            <div class="filter-group">
+
+    <label>Set ID / Prefix</label>
+
+    <input
+        type="text"
+        id="filterSetId"
+        placeholder="SET0001 or B2RWPS0001"
+    >
+
+</div>
+
+            <label>Brake Rotor Pair</label>
+            <select id="filterRotorPair">
+                <option>All</option>
+                <option value="1">1 Pair</option>
+                <option value="2">2 Pair</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Lug Hole Quantity</label>
+            <select id="filterLugHoles">
+                <option>All</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>8</option>
+                <option>10</option>
+                <option>12</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Brake Pads</label>
+            <select id="filterBrakePads">
+                <option>All</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Hardware</label>
+            <select id="filterHardware">
+                <option>All</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+
+        <button id="searchBtn" class="search-btn">SEARCH</button>
+        <button id="resetBtn" class="reset-btn">RESET FILTERS</button>
+
+    </div>
+
+    <div class="content">
+
+        <div class="results-header">
+            <h2>SEARCH RESULTS</h2>
+            <span id="resultCount">4 Items Found</span>
+        </div>
+
+        <div class="cards" id="cards"></div>
+
+<div class="preview">
+
+<div id="thumbnailColumn" class="thumb-column"></div>
+
+    <div class="preview-image">
+
+                <img id="previewImg" src="">
+            </div>
+
+            <div class="preview-info">
+
+                <h2 id="title">
+                    Brake Rotor 2 Pair_Set 1
+                </h2>
+
+                <div class="specs">
+
+    <div class="spec-title">
+        Specifications
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Position</span>
+        <span id="position"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Rotor Type</span>
+        <span id="rotorType"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Rotor Pair</span>
+        <span id="rotorPair"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Lug Holes</span>
+        <span id="lugHoles"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Brake Pads</span>
+        <span id="brakePads"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Hardware</span>
+        <span id="hardware"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Images</span>
+        <span id="images"></span>
+    </div>
+
+    <div class="spec-row">
+        <span class="spec-label">Status</span>
+        <span id="status"></span>
+    </div>
+
+                </div>
+
+                <div style="display:flex;gap:10px;margin-top:20px;">
+
+    <button
+        id="downloadZipBtn"
+        class="download-btn"
+        style="margin-top:0;"
+    >
+        DOWNLOAD ZIP
+    </button>
+
+    <button
+        id="renameImagesBtn"
+        class="download-btn"
+        style="
+            margin-top:0;
+            background:#222;
+            color:#d4a017;
+            border:1px solid #d4a017;
+        "
+    >
+        RENAME IMAGES
+    </button>
+
+</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="importPanel" class="import-panel">
+
+    <div class="import-header">
+
+        <h3>IMPORT SETS</h3>
+
+        <button id="closeImportPanel">
+            ✕
+        </button>
+
+    </div>
+
+    <div class="import-table-header">
+
+    <span>ID</span>
+    <span>Family</span>
+    <span>Prefix</span>
+    <span>Type</span>
+    <span>Pair</span>
+    <span>Pos</span>
+    <span>Lug</span>
+    <span>Pads</span>
+    <span>HW</span>
+    <span>Img</span>
+
+</div>
+
+<div id="importRows" class="import-rows">
+
+</div>
+
+<div class="import-actions">
+
+        <button id="addRowBtn">
+            + ADD ROW
+        </button>
+
+        <button id="loadDatabaseBtn">
+            LOAD CURRENT DATABASE
+        </button>
+
+        <button id="saveDatabaseBtn">
+            SAVE TO DATABASE
+        </button>
+
+    </div>
+
+</div>
+
+<div
+    id="renameModal"
+    style="
+        display:none;
+        position:fixed;
+        top:120px;
+        left:50%;
+        transform:translateX(-50%);
+        width:550px;
+        height:600px;
+        background:#111;
+        border:1px solid #d4a017;
+        border-radius:12px;
+        z-index:10000;
+        box-shadow:0 0 25px rgba(0,0,0,.7);
+        overflow:hidden;
+    "
+>
+
+    <div
+        id="renameModalHeader"
+        style="
+            height:50px;
+            background:#181818;
+            border-bottom:1px solid rgba(212,160,23,.3);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 15px;
+            cursor:move;
+        "
+    >
+
+        <span
+            style="
+                color:#d4a017;
+                font-weight:700;
+            "
+        >
+            RENAME IMAGES
+        </span>
+
+        <button
+            id="closeRenameModal"
+            style="
+                background:none;
+                border:none;
+                color:white;
+                font-size:20px;
+                cursor:pointer;
+            "
+        >
+            ✕
+        </button>
+
+    </div>
+
+    <div style="padding:20px;">
+
+        <label>SKU</label>
+
+        <input
+            id="renameSku"
+            type="text"
+            style="
+                width:100%;
+                padding:10px;
+                margin-top:5px;
+                margin-bottom:15px;
+            "
+        >
+
+        <label>Suffix</label>
+
+        <input
+            id="renameSuffix"
+            type="text"
+            placeholder="v2"
+            style="
+                width:100%;
+                padding:10px;
+                margin-top:5px;
+                margin-bottom:15px;
+            "
+        >
+
+        <div
+            id="renamePreview"
+            style="
+                height:280px;
+                overflow-y:auto;
+                border:1px solid #333;
+                padding:10px;
+                color:#d4a017;
+                margin-bottom:15px;
+            "
+        >
+            Showing 0 files
+        </div>
+
+        <button
+            id="downloadRenamedZipBtn"
+            class="download-btn"
+            style="
+                width:100%;
+                margin-top:0;
+            "
+        >
+            DOWNLOAD RENAMED ZIP
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+const IMAGE_BASE =
+"https://raw.githubusercontent.com/pardodoms-cmyk/RotorGenericVault/main/RotorGenericVault/Images/";
+
+const DATABASE_URL =
+"https://raw.githubusercontent.com/pardodoms-cmyk/RotorGenericVault/main/RotorGenericVault/Processor/database.json";
+
+let rotorSets = [];
+let uploadedDatabase = [];
+
+document
+.getElementById('loadDatabaseBtn')
+.addEventListener('click', async ()=>{
+
+    try{
+
+        const response =
+        await fetch(DATABASE_URL);
+
+        uploadedDatabase =
+        await response.json();
+
+        alert(
+            uploadedDatabase.length +
+            ' records loaded from GitHub'
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            'Failed to load database'
+        );
+
+    }
+
+});
+
+document
+.getElementById('saveDatabaseBtn')
+.addEventListener('click',()=>{
+
+    if(uploadedDatabase.length===0){
+
+        alert(
+            'Load current database first'
+        );
+
+        return;
+
+    }
+
+    const rows =
+    document.querySelectorAll(
+        '.import-row'
+    );
+
+    let duplicates = [];
+
+    rows.forEach(row=>{
+
+        const setId =
+        row.querySelector('.set-id')
+        .value
+        .trim();
+
+        if(!setId) return;
+
+        const family =
+            row.querySelector('.family')
+            .value
+            .trim();
+
+        const exists =
+            uploadedDatabase.some(
+        item =>
+            item.folder === setId &&
+            item.family === family
+);
+
+        if(exists){
+
+            duplicates.push(setId);
+
+            return;
+
+        }
+
+        const number =
+        setId.replace('SET','');
+
+        uploadedDatabase.push({
+
+            title:
+            `Brake Rotor 2 Pair with Pads_${setId}`,
+
+            position:
+            row.querySelector('.position').value,
+
+            rotorType:
+            row.querySelector('.rotor-type').value,
+
+            rotorPair:
+            parseInt(
+                row.querySelector('.rotor-pair').value
+            ),
+
+            brakePads:
+            row.querySelector('.brake-pads').value,
+
+            hardware:
+            row.querySelector('.hardware').value,
+
+            imagesCount:7,
+
+            lugHoles:
+            parseInt(
+                row.querySelector('.lug-holes').value
+            ),
+
+            status:
+            "Generic Images",
+
+            folder:setId,
+
+            prefix:
+            row.querySelector('.prefix')
+            .value
+            .trim(),
+
+            family:
+            row.querySelector('.family')
+            .value
+            .trim(),
+
+        });
+
+    });
+
+    if(duplicates.length){
+
+        alert(
+            'Skipped duplicates:\n' +
+            duplicates.join('\n')
+        );
+
+    }
+
+    downloadDatabase();
+
+});
+
+function downloadDatabase(){
+
+    const blob =
+    new Blob(
+
+        [
+            JSON.stringify(
+                uploadedDatabase,
+                null,
+                2
+            )
+        ],
+
+        {
+            type:'application/json'
+        }
+
+    );
+
+    const link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(blob);
+
+    link.download =
+    'database.json';
+
+    link.click();
+
+}
+
+function buildImages(
+    family,
+    folder,
+    prefix
+){
+
+    const base =
+
+        IMAGE_BASE +
+        family +
+        "/" +
+        folder +
+        "/";
+
+    return [
+
+        base + prefix + "_master_v2.JPG",
+
+        base + prefix + "_02_v2.JPG",
+
+        base + prefix + "_03_v2.JPG",
+
+        base + prefix + "_04_v2.JPG",
+
+        base + prefix + "_05_v2.JPG",
+
+        base + prefix + "_06_v2.JPG",
+
+        base + prefix + "_07_v2.JPG"
+
+    ];
+
+}
+
+
+async function loadDatabase(){
+
+    const response =
+    await fetch(DATABASE_URL);
+
+    const data =
+    await response.json();
+
+    console.log("DATABASE URL:", DATABASE_URL);
+    console.log("SETS LOADED:", data.length);
+
+    rotorSets =
+    data.map(set=>{
+
+          console.log(
+            "FAMILY:",
+            set.family,
+            "FOLDER:",
+            set.folder,
+            "PREFIX:",
+            set.prefix
+);
+
+        console.log(set);
+
+        return {
+
+            ...set,
+
+            images:
+            buildImages(
+                set.family,
+                set.folder,
+                set.prefix
+            )
+
+        };
+
+    });
+
+    renderCards(rotorSets);
+
+}
+
+
+let currentSet = null;
+
+const cards=document.getElementById('cards');
+
+async function checkSetImages(set){
+
+    try{
+
+        const checks =
+        await Promise.all(
+
+            set.images.map(async image=>{
+
+                try{
+
+                    const response = await fetch(image);
+
+                    return response.ok;
+
+                }
+                catch{
+
+                    return false;
+                }
+
+            })
+
+        );
+
+        return checks.every(v=>v);
+
+    }
+    catch{
+
+        return false;
+
+    }
+
+}
+
+function renderCards(data){
+
+    cards.innerHTML='';
+
+    data.forEach(set=>{
+
+        const card=document.createElement('div');
+
+        card.className='card';
+
+        card.innerHTML=`
+        <img src="${set.images[0]}">
+
+        <div class="card-content">
+
+            <div class="card-title">
+                ${set.title}
+            </div>
+
+            <div class="card-sub">
+                ${set.imagesCount} Images
+            </div>
+
+            <div class="card-sub">
+                Generic Image Set
+            </div>
+
+            <div class="set-status">
+                Checking...
+            </div>
+
+            <button class="view-btn">
+                VIEW DETAILS →
+            </button>
+
+        </div>
+        `;
+
+        const statusElement =
+            card.querySelector('.set-status');
+
+            checkSetImages(set)
+            .then(complete=>{
+
+        if(complete){
+
+            statusElement.innerHTML =
+            '🟢 Complete';
+
+            statusElement.style.color =
+            '#00d26a';
+
+    }
+    else{
+
+        statusElement.innerHTML =
+        '🔴 Missing Images';
+
+        statusElement.style.color =
+        '#ff4d4d';
+
+    }
+
+});
+       
+        card.onclick=()=>{
+
+            currentSet = set;
+
+            document.getElementById('previewImg').src=set.images[0];
+
+            document.getElementById('title').textContent=set.title;
+            document.getElementById('position').textContent=set.position;
+            document.getElementById('rotorType').textContent=set.rotorType;
+            document.getElementById('images').textContent=set.imagesCount;
+            document.getElementById('status').textContent=set.status;
+            document.getElementById('lugHoles').textContent=set.lugHoles;
+            document.getElementById('rotorPair').textContent=set.rotorPair;
+            document.getElementById('brakePads').textContent=set.brakePads;
+            document.getElementById('hardware').textContent=set.hardware;
+
+            const thumbColumn =
+            document.getElementById('thumbnailColumn');
+
+            thumbColumn.innerHTML='';
+
+            set.images.forEach((image,index)=>{
+
+                const thumb=document.createElement('img');
+
+                thumb.src=image;
+
+                thumb.className='thumb-img';
+
+                thumb.onclick=()=>{
+
+                    document.getElementById('previewImg').src=image;
+
+                    document
+                    .querySelectorAll('.thumb-img')
+                    .forEach(t=>t.classList.remove('active'));
+
+                    thumb.classList.add('active');
+                };
+
+                thumbColumn.appendChild(thumb);
+
+                if(index===0){
+                    thumb.classList.add('active');
+                }
+
+            });
+
+        };
+
+        cards.appendChild(card);
+
+    });
+
+    document.getElementById('resultCount').textContent =
+    data.length + " Items Found";
+
+    if(cards.firstChild){
+        cards.firstChild.click();
+    }
+
+}
+
+loadDatabase();
+
+ document.getElementById('searchBtn')
+ .addEventListener('click',()=>{
+
+    const rotorPair =
+    document.getElementById('filterRotorPair').value;
+
+    const lugHoles =
+    document.getElementById('filterLugHoles').value;
+
+    const brakePads =
+    document.getElementById('filterBrakePads').value;
+
+    const hardware =
+    document.getElementById('filterHardware').value;
+
+    const setSearch =
+    document.getElementById('filterSetId').value.trim().toLowerCase();
+
+    const filtered =
+    rotorSets.filter(set=>{
+
+        return (
+
+        (
+     setSearch === ""
+
+     ||
+
+      set.folder
+     .toLowerCase()
+     .includes(setSearch)
+
+     ||
+
+     set.prefix
+     .toLowerCase()
+     .includes(setSearch)
+
+     ||
+
+     set.title
+     .toLowerCase()
+     .includes(setSearch)
+ )
+
+ &&
+
+            (rotorPair==="All" ||
+            set.rotorPair == parseInt(rotorPair))
+
+            &&
+
+            (lugHoles==="All" ||
+            set.lugHoles == parseInt(lugHoles))
+
+            &&
+
+            (brakePads==="All" ||
+            set.brakePads===brakePads)
+
+            &&
+
+            (hardware==="All" ||
+            set.hardware===hardware)
+
+        );
+
+    });
+
+    renderCards(filtered);
+
+});
+
+function updateRenamePreview(){
+
+    const sku =
+    document
+    .getElementById('renameSku')
+    .value
+    .trim();
+
+    const suffix =
+    document
+    .getElementById('renameSuffix')
+    .value
+    .trim() || 'v2';
+
+    const preview =
+    document
+    .getElementById('renamePreview');
+
+    if(!sku){
+
+        preview.innerHTML =
+        'Showing 0 files';
+
+        return;
+
+    }
+
+    const files = [
+
+        `${sku}_master_${suffix}.JPG`,
+        `${sku}_02_${suffix}.JPG`,
+        `${sku}_03_${suffix}.JPG`,
+        `${sku}_04_${suffix}.JPG`,
+        `${sku}_05_${suffix}.JPG`,
+        `${sku}_06_${suffix}.JPG`,
+        `${sku}_07_${suffix}.JPG`
+
+    ];
+
+    preview.innerHTML =
+
+        `Showing ${files.length} files<br><br>` +
+
+        files.join('<br>');
+
+}
+
+document
+.getElementById('renameSku')
+.addEventListener(
+'input',
+updateRenamePreview
+);
+
+document
+.getElementById('renameSuffix')
+.addEventListener(
+'input',
+updateRenamePreview
+);
+
+document
+.getElementById('renameImagesBtn')
+.addEventListener('click',()=>{
+
+    if(!currentSet){
+
+        alert('Select a set first');
+
+        return;
+
+    }
+
+    document
+    .getElementById('renameModal')
+    .style.display='block';
+
+});
+
+document
+.getElementById('closeRenameModal')
+.addEventListener('click',()=>{
+
+    document
+    .getElementById('renameModal')
+    .style.display='none';
+
+});
+
+const renameModal =
+document.getElementById('renameModal');
+
+const renameHeader =
+document.getElementById('renameModalHeader');
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+renameHeader.addEventListener(
+'mousedown',
+e=>{
+
+    isDragging = true;
+
+    offsetX =
+    e.clientX -
+    renameModal.offsetLeft;
+
+    offsetY =
+    e.clientY -
+    renameModal.offsetTop;
+
+}
+);
+
+document.addEventListener(
+'mousemove',
+e=>{
+
+    if(!isDragging) return;
+
+    renameModal.style.left =
+    (e.clientX - offsetX) + 'px';
+
+    renameModal.style.top =
+    (e.clientY - offsetY) + 'px';
+
+    renameModal.style.transform =
+    'none';
+
+}
+);
+
+document.addEventListener(
+'mouseup',
+()=>{
+
+    isDragging = false;
+
+}
+);
+
+document
+.getElementById('downloadRenamedZipBtn')
+.addEventListener('click', async ()=>{
+
+    if(!currentSet){
+
+        alert('Select a set first');
+
+        return;
+
+    }
+
+    const sku =
+    document
+    .getElementById('renameSku')
+    .value
+    .trim();
+
+    if(!sku){
+
+        alert('SKU is required');
+
+        return;
+
+    }
+
+    const suffix =
+    document
+    .getElementById('renameSuffix')
+    .value
+    .trim() || 'v2';
+
+    const zip =
+    new JSZip();
+
+    for(let i=0;i<currentSet.images.length;i++){
+
+        try{
+
+            const response =
+            await fetch(
+                currentSet.images[i]
+            );
+
+            const blob =
+            await response.blob();
+
+            let fileName;
+
+            if(i===0){
+
+                fileName =
+                `${sku}_master_${suffix}.JPG`;
+
+            }
+            else{
+
+                const count =
+                String(i+1)
+                .padStart(2,'0');
+
+                fileName =
+                `${sku}_${count}_${suffix}.JPG`;
+
+            }
+
+            zip.file(
+                fileName,
+                blob
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                'Failed:',
+                currentSet.images[i]
+            );
+
+        }
+
+    }
+
+    const content =
+    await zip.generateAsync({
+        type:'blob'
+    });
+
+    const link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(content);
+
+    link.download =
+    `${sku}.zip`;
+
+    link.click();
+
+});
+
+document.getElementById('resetBtn')
+.addEventListener('click',()=>{
+
+    document.getElementById('filterRotorPair').value='All';
+
+    document.getElementById('filterLugHoles').value='All';
+
+    document.getElementById('filterBrakePads').value='All';
+
+    document.getElementById('filterHardware').value='All';
+
+    document.getElementById('filterSetId').value='';
+
+    renderCards(rotorSets);
+
+});
+
+document
+.getElementById('downloadZipBtn')
+.addEventListener('click', async ()=>{
+
+    if(!currentSet){
+
+        alert('No Set Selected');
+
+        return;
+
+    }
+
+    const zip = new JSZip();
+
+    const folder =
+    zip.folder(currentSet.title);
+
+    for(const imageUrl of currentSet.images){
+
+        try{
+
+            const response =
+            await fetch(imageUrl);
+
+            const blob =
+            await response.blob();
+
+            const fileName =
+            imageUrl.split('/').pop();
+
+            folder.file(fileName, blob);
+
+        }
+        catch(error){
+
+            console.error(
+                'Failed:',
+                imageUrl
+            );
+
+        }
+
+    }
+
+    const content =
+    await zip.generateAsync({
+        type:'blob'
+    });
+
+    const link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(content);
+
+    link.download =
+    currentSet.title + '.zip';
+
+    link.click();
+});
+
+const importPanel =
+document.getElementById('importPanel');
+
+document
+.getElementById('importBtn')
+.addEventListener('click',()=>{
+
+    importPanel.style.display='flex';
+
+});
+
+document
+.getElementById('closeImportPanel')
+.addEventListener('click',()=>{
+
+    importPanel.style.display='none';
+
+});
+
+document
+.getElementById('addRowBtn')
+.addEventListener('click',()=>{
+
+    const row = document.createElement('div');
+
+    row.className = 'import-row';
+
+    row.innerHTML = `
+
+        <input
+            type="text"
+            placeholder="SET0006"
+            class="set-id"
+        >
+
+        <input
+            type="text"
+            placeholder="BR2WP"
+            class="family"
+        >
+
+        <input
+            type="text"
+            placeholder="B2RWPS0006"
+            class="prefix"
+        >
+        
+        <select class="rotor-type">
+            <option>Plain</option>
+            <option>Slotted</option>
+            <option>Drilled</option>
+            <option>Drilled & Slotted</option>
+        </select>
+
+        <select class="rotor-pair">
+            <option>1</option>
+            <option selected>2</option>
+        </select>
+
+        <select class="position">
+            <option selected>
+                Left and Right
+            </option>
+            <option>Left</option>
+            <option>Right</option>
+        </select>
+
+        <select class="lug-holes">
+            <option>4</option>
+            <option selected>5</option>
+            <option>6</option>
+            <option>8</option>
+            <option>10</option>
+            <option>12</option>
+        </select>
+
+        <select class="brake-pads">
+            <option selected>Yes</option>
+            <option>No</option>
+        </select>
+
+        <select class="hardware">
+            <option>No</option>
+            <option>Yes</option>
+        </select>
+
+        <div class="img-fixed">
+            7
+        </div>
+
+    `;
+
+    document
+    .getElementById('importRows')
+    .appendChild(row);
+
+});
+
+</script>
+
+</body>
+</html>
