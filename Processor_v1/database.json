@@ -80,7 +80,7 @@
     "lugHoles": 6,
     "status": "Generic Images",
     "folder": "BR2WP-SET06",
-    "prefix": "B2RWPS06",
+    "prefix": "B2RWPS0006",
     "group": "BR2WP"
   },
   {
@@ -94,7 +94,7 @@
     "lugHoles": 10,
     "status": "Generic Images",
     "folder": "BR2WP-SET07",
-    "prefix": "B2RWPS07",
+    "prefix": "B2RWPS0007",
     "group": "BR2WP"
   },
   {
@@ -108,7 +108,7 @@
     "lugHoles": 8,
     "status": "Generic Images",
     "folder": "BR2WP-SET08",
-    "prefix": "B2RWPS08",
+    "prefix": "B2RWPS0008",
     "group": "BR2WP"
   },
   {
@@ -122,7 +122,7 @@
     "lugHoles": 10,
     "status": "Generic Images",
     "folder": "BR2WP-SET09",
-    "prefix": "B2RWPS09",
+    "prefix": "B2RWPS0009",
     "group": "BR2WP"
   },
   {
@@ -136,7 +136,7 @@
     "lugHoles": 6,
     "status": "Generic Images",
     "folder": "BR2WP-SET10",
-    "prefix": "B2RWPS10",
+    "prefix": "B2RWPS0010",
     "group": "BR2WP"
   },
   {
@@ -150,7 +150,7 @@
     "lugHoles": 5,
     "status": "Generic Images",
     "folder": "BR2WP-SET11",
-    "prefix": "B2RWPS11",
+    "prefix": "B2RWPS0011",
     "group": "BR2WP"
   }
 ]
