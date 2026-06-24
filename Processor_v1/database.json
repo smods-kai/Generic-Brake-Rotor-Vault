@@ -79,9 +79,9 @@
     "imagesCount": 7,
     "lugHoles": 6,
     "status": "Generic Images",
+    "group": "BR2WP",
     "folder": "BR2WP-SET06",
-    "prefix": "B2RWPS0006",
-    "group": "BR2WP"
+    "prefix": "B2RWPS0006"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET07",
@@ -93,9 +93,9 @@
     "imagesCount": 7,
     "lugHoles": 5,
     "status": "Generic Images",
+    "group": "BR2WP",
     "folder": "BR2WP-SET07",
-    "prefix": "B2RWPS0007",
-    "group": "BR2WP"
+    "prefix": "B2RWPS0007"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET08",
@@ -107,9 +107,9 @@
     "imagesCount": 7,
     "lugHoles": 8,
     "status": "Generic Images",
+    "group": "BR2WP",
     "folder": "BR2WP-SET08",
-    "prefix": "B2RWPS0008",
-    "group": "BR2WP"
+    "prefix": "B2RWPS0008"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET09",
@@ -121,9 +121,9 @@
     "imagesCount": 7,
     "lugHoles": 10,
     "status": "Generic Images",
+    "group": "BR2WP",
     "folder": "BR2WP-SET09",
-    "prefix": "B2RWPS0009",
-    "group": "BR2WP"
+    "prefix": "B2RWPS0009"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET10",
@@ -135,9 +135,9 @@
     "imagesCount": 7,
     "lugHoles": 6,
     "status": "Generic Images",
+    "group": "BR2WP",
     "folder": "BR2WP-SET10",
-    "prefix": "B2RWPS0010",
-    "group": "BR2WP"
+    "prefix": "B2RWPS0010"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET11",
@@ -149,12 +149,12 @@
     "imagesCount": 7,
     "lugHoles": 5,
     "status": "Generic Images",
+    "group": "BR2WP",
     "folder": "BR2WP-SET11",
-    "prefix": "B2RWPS0011",
-    "group": "BR2WP"
+    "prefix": "B2RWPS0011"
   },
   {
-    "title": "Brake Rotor 2 Pair with Pads_SET06",
+    "title": "Brake Rotor Pair with Pads_SET06",
     "position": "Left and Right",
     "rotorType": "Plain",
     "rotorPair": 1,
@@ -163,8 +163,8 @@
     "imagesCount": 7,
     "lugHoles": 6,
     "status": "Generic Images",
+    "group": "BRWP",
     "folder": "BRWP-SET06",
-    "prefix": "BRWP-SET0006",
-    "group": "BRWP"
+    "prefix": "BRWPS0006"
   }
 ]
