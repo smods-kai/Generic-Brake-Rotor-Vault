@@ -1358,6 +1358,13 @@ textarea {
 
 </header>
 
+<div class="filter-group">
+            <label>Group</label>
+            <select id="filterGroup">
+                <option value="">All Groups</option>
+            </select>
+        </div>
+
 <div class="main">
 
     <div class="sidebar">
@@ -1837,7 +1844,9 @@ document
     try{
 
         const response =
-        await fetch(DATABASE_URL);
+        await fetch(DATABASE_URL, {
+        cache: 'no-store'
+    });
 
         uploadedDatabase =
         await response.json();
@@ -2021,21 +2030,23 @@ function buildImages(
         folder +
         "/";
 
+    const t = Date.now();
+
     return [
 
-        base + prefix + "_master_v2.JPG",
+        base + prefix + "_master_v2.JPG" + "?t=" + t,
 
-        base + prefix + "_02_v2.JPG",
+        base + prefix + "_02_v2.JPG" + "?t=" + t,
 
-        base + prefix + "_03_v2.JPG",
+        base + prefix + "_03_v2.JPG" + "?t=" + t,
 
-        base + prefix + "_04_v2.JPG",
+        base + prefix + "_04_v2.JPG" + "?t=" + t,
 
-        base + prefix + "_05_v2.JPG",
+        base + prefix + "_05_v2.JPG" + "?t=" + t,
 
-        base + prefix + "_06_v2.JPG",
+        base + prefix + "_06_v2.JPG" + "?t=" + t,
 
-        base + prefix + "_07_v2.JPG"
+        base + prefix + "_07_v2.JPG" + "?t=" + t
 
     ];
 
@@ -2102,6 +2113,33 @@ async function loadDatabase(){
         }));
 
         renderCards(rotorSets);
+
+    // Auto-populate group dropdowns from database
+        const groups = [
+            ...new Set(rotorSets.map(s => s.group))
+        ].filter(Boolean).sort();
+
+        // Populate the sidebar filter dropdown
+        const filterGroup =
+        document.getElementById('filterGroup');
+
+        if(filterGroup){
+            filterGroup.innerHTML =
+            '<option value="">All Groups</option>' +
+            groups.map(g =>
+                `<option value="${g}">${g}</option>`
+            ).join('');
+        }
+
+        // Populate the import panel group select
+        document
+        .querySelectorAll('select.group')
+        .forEach(sel => {
+            sel.innerHTML =
+            groups.map(g =>
+                `<option>${g}</option>`
+            ).join('');
+        });
 
     } catch(error){
 
