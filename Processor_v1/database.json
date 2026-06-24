@@ -166,5 +166,32 @@
     "group": "BRWP",
     "folder": "BRWP-SET06",
     "prefix": "BRWPS0006"
-  }
+ },
+ {
+    "title": "Brake Rotor Pair with Pads and Hardware_SET01",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 1,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 5,
+    "status": "Generic Images",
+    "group": "BRWPH",
+    "folder": "BRWPH-SET01",
+    "prefix": "BRWPHS0001"
+  },
+  {
+    "title": "Brake Rotor Pair with Pads and Hardware_SET02",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 1,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 5,
+    "status": "Generic Images",
+    "group": "BRWPH",
+    "folder": "BRWPH-SET02",
+    "prefix": "BRWPHS0002"
 ]
