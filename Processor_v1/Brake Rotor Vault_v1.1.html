@@ -2225,40 +2225,27 @@ function navigateImage(dir){
 
 const cards=document.getElementById('cards');
 
-async function checkSetImages(set){
-
-    try{
-
-        const checks =
-        await Promise.all(
-
-            set.images.map(async image=>{
-
-                try{
-
-                    const response = await fetch(image);
-
-                    return response.ok;
-
-                }
-                catch{
-
-                    return false;
-                }
-
-            })
-
-        );
-
-        return checks.every(v=>v);
-
-    }
-    catch{
-
-        return false;
-
-    }
-
+// Uses img load test — no CORS issues
+function checkSetImages(set){
+  return new Promise(resolve=>{
+    let loaded = 0;
+    let failed = 0;
+    const total = set.images.length;
+    set.images.forEach(src=>{
+      const img = new Image();
+      img.onload = ()=>{
+        loaded++;
+        if(loaded+failed===total)
+          resolve(failed===0);
+      };
+      img.onerror = ()=>{
+        failed++;
+        if(loaded+failed===total)
+          resolve(false);
+      };
+      img.src = src;
+    });
+  });
 }
 
 function renderCards(data){
