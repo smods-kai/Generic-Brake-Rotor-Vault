@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brake Rotor Vault - Premium Rotor Database</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+.import-btn{
+
+    padding:16px 28px;
+
+    background:#d4a017;
+
+    color:#000;
+
+    font-weight:700;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.import-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 0 15px rgba(212,160,23,.35);
+
+}
+
+.import-panel{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:1020px;
+    max-width:1200px;
+
+    height:auto;
+    min-height:260px;
+
+    background:#111;
+
+    border:1px solid #d4a017;
+
+    border-radius:12px;
+
+    display:none;
+
+    flex-direction:column;
+
+    z-index:9999;
+
+    overflow:hidden;
+
+    box-shadow:0 0 20px rgba(0,0,0,.6);
+
+}
+
+.import-panel{
+
+    position:fixed;
+    top:90px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:1120px;
+    min-height:260px;
+
+    background:#0f0f0f;
+
+    border:1px solid #d4a017;
+    border-radius:16px;
+
+    z-index:9999;
+
+    display:none;
+    flex-direction:column;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 0 25px rgba(0,0,0,.65);
+}
+
+.import-panel{
+    width:1120px;
+    min-height:auto;
+}
+
+.import-rows{
+    max-height:120px;
+}
+
+.import-actions{
+    padding:12px;
+}
+
+.import-header{
+
+    height:68px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    border-bottom:1px solid rgba(212,160,23,.25);
+
+    background:#111;
+}
+
+.import-header h3{
+
+    color:#d4a017;
+
+    font-size:20px;
+    font-weight:700;
+}
+
+.import-header button{
+
+    position:absolute;
+
+    right:20px;
+
+    background:none;
+    border:none;
+
+    color:white;
+
+    font-size:30px;
+
+    cursor:pointer;
+}
+
+.import-table-header{
+
+    display:grid;
+
+    grid-template-columns:
+
+    100px
+    110px
+    150px
+    100px
+    70px
+    170px
+    70px
+    80px
+    80px
+    60px
+    40px;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:14px 20px;
+
+    border-bottom:1px solid rgba(212,160,23,.15);
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+}
+
+.import-row{
+
+    display:grid;
+
+    grid-template-columns:
+
+    100px
+    110px
+    150px
+    100px
+    70px
+    170px
+    70px
+    80px
+    80px
+    60px
+    40px;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:14px 20px;
+
+    border-bottom:1px solid rgba(212,160,23,.08);
+}
+
+.import-rows{
+
+    padding:8px;
+
+    overflow-y:auto;
+
+    max-height:250px;
+
+}
+
+.import-actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    border-top:1px solid rgba(212,160,23,.15);
+}
+
+.import-actions button{
+
+    flex:1;
+
+    min-width:180px;
+
+    height:50px;
+
+}
+
+.import-row input,
+.import-row select{
+
+    height:46px;
+
+    background:#111;
+
+    color:white;
+
+    border:1px solid #333;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+    text-align:center;
+}
+
+.import-row .img-fixed{
+
+    text-align:center;
+
+    color:#d4a017;
+
+    font-weight:700;
+
+}
+
+body{
+    background:#0b0b0b;
+    color:#fff;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+header{
+    background:#111;
+    border-bottom:2px solid #d4a017;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo h1{
+    color:#d4a017;
+}
+
+.logo p{
+    font-size:12px;
+    color:#aaa;
+}
+
+.admin-btn{
+    background:#d4a017;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.main{
+    flex:1;
+    display:flex;
+}
+
+.sidebar{
+    width:260px;
+    background:#111;
+    border-right:1px solid #333;
+    padding:20px;
+}
+
+.sidebar h2{
+    color:#d4a017;
+    margin-bottom:20px;
+}
+
+.filter-group{
+    margin-bottom:20px;
+}
+
+.filter-group label{
+    display:block;
+    margin-bottom:8px;
+}
+
+.filter-group input,
+.filter-group select{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+}
+
+.sidebar button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.search-btn{
+    background:#d4a017;
+}
+
+.reset-btn{
+    background:#333;
+    color:white;
+}
+
+.content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.results-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:25px 30px 10px;
+
+}
+
+.results-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.results-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    font-size:42px;
+
+    font-weight:800;
+
+    color:white;
+
+}
+
+#resultsCount{
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#d4a017;
+
+    padding:6px 14px;
+
+    border:1px solid rgba(212,160,23,.4);
+
+    border-radius:20px;
+
+}
+
+.import-btn{
+
+    background:#d4a017;
+
+    color:black;
+
+    border:none;
+
+    padding:14px 28px;
+
+    font-weight:700;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.import-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.results-header h2{
+
+    color:white;
+
+    font-size:34px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+.results-header span{
+
+    background:
+    rgba(212,160,23,.15);
+
+    border:
+    1px solid rgba(212,160,23,.4);
+
+    color:#d4a017;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+    overflow:auto;
+    max-height:50%;
+}
+
+.card{
+
+    background:#111;
+
+    border:
+    1px solid rgba(212,160,23,.25);
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    border-color:#d4a017;
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 8px 25px rgba(212,160,23,.18);
+
+}
+
+.card:hover{
+    border-color:#d4a017;
+    transform:translateY(-3px);
+}
+
+.card img{
+
+    width:100%;
+
+    height:260px;
+
+    object-fit:cover;
+
+    background:#000;
+
+}
+
+.card-content{
+
+    padding:18px;
+
+}
+
+.card-title{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    line-height:1.35;
+
+    margin-bottom:12px;
+
+}
+
+.card-sub{
+
+    color:#bcbcbc;
+
+    font-size:14px;
+
+    margin-bottom:8px;
+
+}
+
+.preview{
+
+    border-top:1px solid #333;
+    background:#0f0f0f;
+
+    padding:30px;
+
+    display:grid;
+
+    grid-template-columns:
+
+        90px
+        460px
+        1fr
+        260px;
+
+    gap:35px;
+
+    min-height:500px;
+
+    align-items:start;
+
+}
+
+.preview-image{
+    width:100%;
+}
+
+.preview-image{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.preview-image img{
+    max-width:100%;
+    min-height:220px;
+    max-height:80vh;
+
+    width:auto;
+    height:auto;
+
+    object-fit:contain;
+}
+
+.preview-info{
+    width:100%;
+}
+
+.preview-title-row{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.preview-title-row h2{
+    margin:0;
+    font-size:30px;
+    font-weight:800;
+    color:#d4a017;
+}
+
+.set-badge{
+    background:#d4a017;
+    color:#000;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.meta-strip{
+
+    display:flex;
+
+    gap:40px;
+
+    padding:14px 18px;
+
+    margin-bottom:20px;
+
+    border:1px solid rgba(212,160,23,.25);
+
+    border-radius:10px;
+
+    background:rgba(212,160,23,.04);
+
+}
+
+.meta-item{
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+.meta-item span{
+
+    color:#888;
+
+    font-size:10px;
+
+    letter-spacing:1px;
+
+}
+
+.meta-item strong{
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:800;
+
+    margin-top:4px;
+
+}
+
+.preview-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    padding-left:20px;
+
+    border-left:1px solid rgba(212,160,23,.2);
+
+}
+
+.preview-actions{
+    width:260px;
+    align-self:start;
+    position:sticky;
+    top:20px;
+}
+
+.action-box{
+
+    background:#111;
+
+    border:1px solid rgba(212,160,23,.25);
+
+    border-radius:10px;
+
+    padding:15px;
+
+}
+
+.action-label{
+
+    color:#888;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    margin-bottom:8px;
+
+}
+
+.action-value{
+
+    color:#d4a017;
+
+    font-size:24px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+.preview-info h2{
+    color:#d4a017;
+    margin-bottom:15px;
+}
+
+.specs{
+    line-height:2;
+}
+
+.download-btn{
+    margin-top:20px;
+    background:#d4a017;
+    border:none;
+    padding:12px 25px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.view-btn{
+
+    width:100%;
+
+    height:54px;
+
+    margin-top:10px;
+
+    background:transparent;
+
+    border:1px solid rgba(212,160,23,.35);
+
+    color:#d4a017;
+
+    border-radius:8px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.view-btn:hover{
+
+    background:#d4a017;
+
+    color:#000;
+
+}
+
+.thumb-column{
+    height:260px;
+
+    overflow-y:auto;
+
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+
+    padding-right:6px;
+}
+
+.thumb{
+    width:70px;
+    height:70px;
+
+    border:1px solid rgba(212,160,23,.3);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#d4a017;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+.thumb-img{
+    width:72px;
+    height:72px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+    border:1px solid rgba(212,160,23,.3);
+
+    transition:.25s ease;
+
+    cursor:pointer;
+
+    flex-shrink:0;
+}
+
+.thumb-img:hover{
+    border-color:#d4a017;
+    box-shadow:0 0 10px rgba(212,160,23,.4);
+}
+
+.thumb-column::-webkit-scrollbar{
+    width:4px;
+}
+
+.thumb-column::-webkit-scrollbar-track{
+    background:#111;
+}
+
+.thumb-column::-webkit-scrollbar-thumb{
+    background:#d4a017;
+    border-radius:10px;
+}
+
+.thumb-img.active{
+
+    border:2px solid #d4a017;
+
+    box-shadow:
+    0 0 15px rgba(212,160,23,.5);
+
+    transform:scale(1.05);
+}
+
+.thumb-column{
+    scroll-behavior:smooth;
+}
+
+.spec-title{
+
+    color:#d4a017;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid rgba(212,160,23,.3);
+
+}
+
+.spec-row{
+
+    display:grid;
+
+    grid-template-columns:
+        160px
+        20px
+        minmax(220px,1fr);
+
+    align-items:center;
+
+    padding:10px 0;
+
+    border-bottom:
+    1px solid rgba(255,255,255,.04);
+
+}
+
+.spec-label{
+
+    color:#9c9c9c;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+}
+
+.spec-row span:last-child{
+
+    color:white;
+
+}
+
+.set-status{
+
+    margin-top:12px;
+
+    margin-bottom:14px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+}
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.85);
+
+    z-index:9999;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.modal-content{
+
+    width:700px;
+
+    background:#111;
+
+    border:1px solid #d4a017;
+
+    border-radius:12px;
+
+    padding:25px;
+
+}
+
+.modal-content h2{
+
+    color:#d4a017;
+
+    margin-bottom:20px;
+
+}
+
+.modal textarea{
+
+    width:100%;
+
+    height:150px;
+
+    background:#1b1b1b;
+
+    color:white;
+
+    border:1px solid #333;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+    resize:vertical;
+
+}
+
+.modal button{
+
+    width:100%;
+
+    height:50px;
+
+    margin-bottom:15px;
+
+    background:#d4a017;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+* {
+    caret-color: transparent;
+}
+
+input,
+textarea {
+    caret-color: auto;
+}
+
+.import-table-header,
+.import-row{
+
+    align-items:center;
+
+    justify-items:center;
+
+}
+
+.import-row input,
+.import-row select{
+
+    height:42px;
+
+    font-size:14px;
+
+    border:1px solid #333;
+
+    background:#111;
+
+    color:white;
+
+}
+
+.import-table-header,
+.import-row{
+
+    display:grid;
+
+    grid-template-columns:
+
+    90px
+    90px
+    130px
+    90px
+    60px
+    150px
+    60px
+    70px
+    70px
+    50px
+    40px;
+
+    gap:12px;
+
+}
+
+.img-fixed{
+
+    height:46px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid #333;
+
+    border-radius:8px;
+
+    color:#d4a017;
+
+    font-weight:700;
+}
+
+.delete-row{
+
+    color:red;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    text-align:center;
+}
+
+.logo-container{
+
+    padding:20px 24px;
+
+}
+
+.logo-title{
+
+    font-size:58px;
+
+    font-weight:900;
+
+    letter-spacing:4px;
+
+    color:#d4a017;
+
+    text-transform:uppercase;
+
+    line-height:1;
+
+}
+
+.logo-subtitle{
+
+    margin-top:8px;
+
+    font-size:11px;
+
+    letter-spacing:5px;
+
+    color:#999;
+
+    text-transform:uppercase;
+
+}
+
+.logo-container::after{
+
+    content:'';
+
+    display:block;
+
+    width:180px;
+
+    height:2px;
+
+    margin-top:12px;
+
+    background:#d4a017;
+
+}
+
+.top-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:20px 30px;
+
+    border-bottom:1px solid #d4a017;
+
+    background:#050505;
+
+}
+
+.header-left{
+
+    flex:1;
+
+}
+
+.header-center{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.header-right{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+.karparts-logo{
+
+    height:55px;
+
+    width:auto;
+
+    object-fit:contain;
+
+}
+
+.logo-stack{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.spec-row span:last-child{
+
+    color:white;
+
+    font-weight:600;
+
+}
+
+.rotor-badge{
+
+    display:inline-block;
+
+    background:
+    rgba(212,160,23,.15);
+
+    color:#d4a017;
+
+    padding:4px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.footer{
+
+    margin-top:40px;
+
+    padding:25px 40px;
+
+    border-top:2px solid rgba(255,255,255,.25);
+
+    background:#080808;
+
+}
+
+.footer-content{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    align-items:center;
+
+    text-align:center;
+
+    gap:20px;
+
+}
+
+.footer-left,
+.footer-center,
+.footer-right{
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    line-height:1.4;
+
+}
+
+.footer-center{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#ffffff;
+
+}
+
+.footer strong{
+
+    color:#d4a017;
+
+}
+
+.import-footer{
+
+    padding:12px;
+
+    text-align:center;
+
+    font-size:12px;
+
+    color:#777;
+
+    border-top:1px solid rgba(212,160,23,.15);
+
+}
+
+.footer{
+    margin-top:40px;
+    padding:25px 40px;
+    border-top:2px solid rgba(255,255,255,.25);
+    background:#080808;
+}
+
+@keyframes spin{
+    to{ transform:rotate(360deg); }
+}
+
+</style>
+</head>
+<body>
+
+<header class="top-header">
+
+    <div class="header-left">
+
+        <div class="logo-stack">
+
+            <div class="logo-title">
+                BRAKE ROTOR VAULT
+            </div>
+
+            <div class="logo-subtitle">
+                ALL IMAGES ARE GENERIC
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="header-center">
+
+        <img
+            src="logo.png"
+            alt="KarParts360"
+            class="karparts-logo">
+
+    </div>
+
+<div class="header-right"></div>
+
+</header>
+
+<div class="filter-group">
+            <label>Group</label>
+            <select id="filterGroup">
+                <option value="">All Groups</option>
+            </select>
+        </div>
+
+<div class="main">
+
+    <div class="sidebar">
+
+        <h2>FILTERS</h2>
+
+        <div class="filter-group">
+
+            <div class="filter-group">
+
+    <label>Set ID / Prefix</label>
+
+    <input
+        type="text"
+        id="filterSetId"
+        placeholder="SET0001 or B2RWPS0001"
+    >
+
+</div>
+
+            <label>Brake Rotor Pair</label>
+            <select id="filterRotorPair">
+                <option>All</option>
+                <option value="1">1 Pair</option>
+                <option value="2">2 Pair</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Lug Hole Quantity</label>
+            <select id="filterLugHoles">
+                <option>All</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>8</option>
+                <option>10</option>
+                <option>12</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Brake Pads</label>
+            <select id="filterBrakePads">
+                <option>All</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Hardware</label>
+            <select id="filterHardware">
+                <option>All</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+
+        <button id="searchBtn" class="search-btn">SEARCH</button>
+        <button id="resetBtn" class="reset-btn">RESET FILTERS</button>
+
+    </div>
+
+    <div class="content">
+
+<div class="results-header">
+
+    <div class="results-title">
+
+        SEARCH RESULTS
+
+        <span id="resultsCount">
+            5 Items Found
+        </span>
+
+    </div>
+
+    <button
+        id="importSetsBtn"
+        class="import-btn">
+
+        IMPORT SETS
+
+    </button>
+
+</div>
+
+        <div class="cards" id="cards"></div>
+
+<div class="preview">
+
+<div id="thumbnailColumn" class="thumb-column"></div>
+
+<div class="preview-image" style="position:relative;">
+
+    <button id="prevImgBtn" onclick="navigateImage(-1)" style="
+        position:absolute;left:8px;top:50%;transform:translateY(-50%);
+        background:rgba(0,0,0,.55);border:1px solid rgba(212,160,23,.4);
+        color:#d4a017;font-size:22px;width:36px;height:36px;
+        border-radius:50%;cursor:pointer;z-index:10;
+        display:none;align-items:center;justify-content:center;line-height:1;
+    ">&#8249;</button>
+
+    <img id="previewImg" src="">
+
+    <button id="nextImgBtn" onclick="navigateImage(1)" style="
+        position:absolute;right:8px;top:50%;transform:translateY(-50%);
+        background:rgba(0,0,0,.55);border:1px solid rgba(212,160,23,.4);
+        color:#d4a017;font-size:22px;width:36px;height:36px;
+        border-radius:50%;cursor:pointer;z-index:10;
+        display:none;align-items:center;justify-content:center;line-height:1;
+    ">&#8250;</button>
+
+</div>
+
+            <div class="preview-info">
+
+                <div class="preview-title-row">
+
+    <h2 id="title">
+        Brake Rotor 2 Pair with Pads
+    </h2>
+
+    <span id="setBadge" class="set-badge">
+        SET01
+    </span>
+
+</div>
+
+<div class="meta-strip">
+
+    <div class="meta-item">
+
+        <span>SET ID</span>
+
+        <strong id="metaSetId">
+            SET01
+        </strong>
+
+    </div>
+
+    <div class="meta-item">
+
+        <span>GROUP</span>
+
+        <strong id="metaGroup">
+            BR2WP
+        </strong>
+
+    </div>
+
+    <div class="meta-item">
+
+        <span>IMAGES</span>
+
+        <strong id="metaImages">
+            7
+        </strong>
+
+    </div>
+
+</div>
+
+<div class="specs">
+
+    <div class="spec-title">
+        Specifications
+    </div>
+
+<div class="spec-row">
+    <span class="spec-label">Position</span>
+    <span>:</span>
+    <span id="position"></span>
+</div>
+
+    <div class="spec-row">
+    <span class="spec-label">Rotor Type</span>
+    <span>:</span>
+    <span id="rotorType" class="rotor-badge"></span>
+</div>
+
+<div class="spec-row">
+    <span class="spec-label">Rotor Pair</span>
+    <span>:</span>
+    <span id="rotorPair"></span>
+</div>
+
+<div class="spec-row">
+    <span class="spec-label">Lug Holes</span>
+    <span>:</span>
+    <span id="lugHoles"></span>
+</div>
+
+<div class="spec-row">
+    <span class="spec-label">Brake Pads</span>
+    <span>:</span>
+    <span id="brakePads"></span>
+</div>
+
+<div class="spec-row">
+    <span class="spec-label">Hardware</span>
+    <span>:</span>
+    <span id="hardware"></span>
+</div>
+
+<div class="spec-row">
+    <span class="spec-label">Images</span>
+    <span>:</span>
+    <span id="images"></span>
+</div>
+
+<div class="spec-row">
+    <span class="spec-label">Status</span>
+    <span>:</span>
+    <span id="status"></span>
+</div>
+
+</div> <!-- specs -->
+
+</div> <!-- preview-info -->
+
+<div class="preview-actions">
+
+            <div class="action-box">
+
+            <div class="action-label">
+                PREFIX
+            </div>
+
+            <div
+                id="previewPrefix"
+                class="action-value"
+        >
+                B2RWPS0001
+            </div>
+
+            </div>
+
+            <button
+                id="downloadZipBtn"
+                class="download-btn"
+    >
+                DOWNLOAD ZIP
+            </button>
+
+            <button
+                id="renameImagesBtn"
+                class="download-btn"
+                style="
+                    background:#222;
+                    color:#d4a017;
+                    border:1px solid #d4a017;
+                    "
+    >
+                RENAME IMAGES
+                </button>
+
+</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="importPanel" class="import-panel">
+
+    <div class="import-header" id="importHeader">
+
+        <h3>IMPORT SETS</h3>
+
+        <button id="closeImportPanel">
+            ✕
+        </button>
+
+    </div>
+
+    <div class="import-table-header">
+
+    <span>ID</span>
+    <span>Group</span>
+    <span>Prefix</span>
+    <span>Type</span>
+    <span>Pair</span>
+    <span>Pos</span>
+    <span>Lug</span>
+    <span>Pads</span>
+    <span>HW</span>
+    <span>Img</span>
+    <span></span>   
+
+</div>
+
+<div id="importRows" class="import-rows">
+
+</div>
+
+<div class="import-actions">
+
+    <button id="addRowBtn">
+        + ADD ROW
+    </button>
+
+    <button id="loadDatabaseBtn">
+        LOAD CURRENT DATABASE
+    </button>
+
+    <button id="resetImportBtn">
+        RESET FORM
+    </button>
+
+    <button id="saveDatabaseBtn">
+        SAVE TO DATABASE
+    </button>
+
+</div>
+
+</div> <!-- importPanel -->
+
+<div id="renameModal"
+    style="
+        display:none;
+        position:fixed;
+        top:120px;
+        left:50%;
+        transform:translateX(-50%);
+        width:550px;
+        height:600px;
+        background:#111;
+        border:1px solid #d4a017;
+        border-radius:12px;
+        z-index:10000;
+        box-shadow:0 0 25px rgba(0,0,0,.7);
+        overflow:hidden;
+    "
+>
+
+    <div
+        id="renameModalHeader"
+        style="
+            height:50px;
+            background:#181818;
+            border-bottom:1px solid rgba(212,160,23,.3);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 15px;
+            cursor:move;
+        "
+    >
+
+        <span
+            style="
+                color:#d4a017;
+                font-weight:700;
+            "
+        >
+            RENAME IMAGES
+        </span>
+
+        <button
+            id="closeRenameModal"
+            style="
+                background:none;
+                border:none;
+                color:white;
+                font-size:20px;
+                cursor:pointer;
+            "
+        >
+            ✕
+        </button>
+
+    </div>
+
+    <div style="padding:20px;">
+
+        <label>SKU</label>
+
+        <input
+            id="renameSku"
+            type="text"
+            style="
+                width:100%;
+                padding:10px;
+                margin-top:5px;
+                margin-bottom:15px;
+            "
+        >
+
+        <label>Suffix</label>
+
+        <input
+            id="renameSuffix"
+            type="text"
+            placeholder="v2"
+            style="
+                width:100%;
+                padding:10px;
+                margin-top:5px;
+                margin-bottom:15px;
+            "
+        >
+
+        <div
+            id="renamePreview"
+            style="
+                height:280px;
+                overflow-y:auto;
+                border:1px solid #333;
+                padding:10px;
+                color:#d4a017;
+                margin-bottom:15px;
+            "
+        >
+            Showing 0 files
+        </div>
+
+        <button
+            id="downloadRenamedZipBtn"
+            class="download-btn"
+            style="
+                width:100%;
+                margin-top:0;
+            "
+        >
+            DOWNLOAD RENAMED ZIP
+        </button>
+
+</div> <!-- rename modal content -->
+
+</div> <!-- renameModal -->
+
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <div class="footer-left">
+            © 2026 Dominic Pardo<br>
+            Creator & Developer
+        </div>
+
+        <div class="footer-center">
+            <strong>BRAKE ROTOR VAULT</strong><br>
+            PROCESSOR v1.1
+        </div>
+
+        <div class="footer-right">
+            Built for KarParts360<br>
+            Generic Rotor Database Management
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+
+const IMAGE_BASE =
+'https://raw.githubusercontent.com/smods-kai/Generic-Brake-Rotor-Vault/main/';
+
+const DATABASE_URL =
+"https://raw.githubusercontent.com/smods-kai/Generic-Brake-Rotor-Vault/main/Processor_v1/database.json";
+
+let rotorSets = [];
+let uploadedDatabase = [];
+
+document
+.getElementById('loadDatabaseBtn')
+.addEventListener('click', async ()=>{
+
+    try{
+
+        const response =
+        await fetch(DATABASE_URL, {
+        cache: 'no-store'
+    });
+
+        uploadedDatabase =
+        await response.json();
+
+        alert(
+            uploadedDatabase.length +
+            ' records loaded from GitHub'
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            'Failed to load database'
+        );
+
+    }
+
+});
+
+document
+.getElementById('saveDatabaseBtn')
+.addEventListener('click',()=>{
+
+    if(uploadedDatabase.length===0){
+
+        alert(
+            'Load current database first'
+        );
+
+        return;
+
+    }
+
+    const rows =
+    document.querySelectorAll(
+        '.import-row'
+    );
+
+    let duplicates = [];
+
+    rows.forEach(row=>{
+
+        const setId =
+        row.querySelector('.set-id')
+        .value
+        .trim();
+
+        if(!setId) return;
+
+        const group =
+            row.querySelector('.group')
+            .value
+            .trim();
+
+        const exists =
+            uploadedDatabase.some(
+        item =>
+            item.folder === setId &&
+            item.group === group
+);
+
+        if(exists){
+
+            duplicates.push(setId);
+
+            return;
+
+        }
+
+        const number =
+        setId.replace('SET','');
+
+        uploadedDatabase.push({
+
+            title:
+            `Brake Rotor 2 Pair with Pads_${setId}`,
+
+            position:
+            row.querySelector('.position').value,
+
+            rotorType:
+            row.querySelector('.rotor-type').value,
+
+            rotorPair:
+            parseInt(
+                row.querySelector('.rotor-pair').value
+            ),
+
+            brakePads:
+            row.querySelector('.brake-pads').value,
+
+            hardware:
+            row.querySelector('.hardware').value,
+
+            imagesCount:7,
+
+            lugHoles:
+            parseInt(
+                row.querySelector('.lug-holes').value
+            ),
+
+            status:
+            "Generic Images",
+
+            folder:
+                group + "-" + setId,
+
+            prefix:
+            row.querySelector('.prefix')
+            .value
+            .trim(),
+
+            group:
+            row.querySelector('.group')
+            .value
+            .trim(),
+
+        });
+
+    });
+
+    if(duplicates.length){
+
+        alert(
+            'Skipped duplicates:\n' +
+            duplicates.join('\n')
+        );
+
+    }
+
+    downloadDatabase();
+
+});
+
+function downloadDatabase(){
+
+    const blob =
+    new Blob(
+
+        [
+            JSON.stringify(
+                uploadedDatabase,
+                null,
+                2
+            )
+        ],
+
+        {
+            type:'application/json'
+        }
+
+    );
+
+    const link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(blob);
+
+    link.download =
+    'database.json';
+
+    link.click();
+
+}
+
+function buildImages(
+    group,
+    folder,
+    prefix
+){
+
+    const base =
+
+        IMAGE_BASE +
+        group +
+        "/" +
+        folder +
+        "/";
+
+    const t = Date.now();
+
+    return [
+
+        base + prefix + "_master_v2.JPG" + "?t=" + t,
+
+        base + prefix + "_02_v2.JPG" + "?t=" + t,
+
+        base + prefix + "_03_v2.JPG" + "?t=" + t,
+
+        base + prefix + "_04_v2.JPG" + "?t=" + t,
+
+        base + prefix + "_05_v2.JPG" + "?t=" + t,
+
+        base + prefix + "_06_v2.JPG" + "?t=" + t,
+
+        base + prefix + "_07_v2.JPG" + "?t=" + t
+
+    ];
+
+}
+
+async function loadDatabase(){
+
+    const cardsEl =
+    document.getElementById('cards');
+
+    const resultsCount =
+    document.getElementById('resultsCount');
+
+    // 1. Show loading spinner
+    resultsCount.textContent =
+    'Loading database...';
+
+    cardsEl.innerHTML = `
+        <div style="
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            padding:60px 20px;
+            gap:16px;
+            color:#888;
+            font-size:14px;
+        ">
+            <div style="
+                width:36px;
+                height:36px;
+                border:3px solid #333;
+                border-top-color:#d4a017;
+                border-radius:50%;
+                animation:spin .8s linear infinite;
+            "></div>
+            Loading brake rotor database...
+        </div>
+    `;
+
+    try{
+
+        // 2. Fetch from GitHub
+        const response =
+        await fetch(DATABASE_URL);
+
+        if(!response.ok){
+            throw new Error(
+                'HTTP ' + response.status
+            );
+        }
+
+        const data =
+        await response.json();
+
+        rotorSets =
+        data.map(set=>({
+            ...set,
+            images: buildImages(
+                set.group,
+                set.folder,
+                set.prefix
+            )
+        }));
+
+        renderCards(rotorSets);
+
+    // Auto-populate group dropdowns from database
+        const groups = [
+            ...new Set(rotorSets.map(s => s.group))
+        ].filter(Boolean).sort();
+
+        // Populate the sidebar filter dropdown
+        const filterGroup =
+        document.getElementById('filterGroup');
+
+        if(filterGroup){
+            filterGroup.innerHTML =
+            '<option value="">All Groups</option>' +
+            groups.map(g =>
+                `<option value="${g}">${g}</option>`
+            ).join('');
+        }
+
+        // Populate the import panel group select
+        document
+        .querySelectorAll('select.group')
+        .forEach(sel => {
+            sel.innerHTML =
+            groups.map(g =>
+                `<option>${g}</option>`
+            ).join('');
+        });
+
+    } catch(error){
+
+        // 3. Show error + retry button
+        cardsEl.innerHTML = `
+            <div style="
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                padding:60px 20px;
+                gap:12px;
+                color:#888;
+                font-size:14px;
+                text-align:center;
+            ">
+                <div style="font-size:32px;">&#9888;</div>
+                <div style="
+                    color:#d4a017;
+                    font-weight:600;
+                ">
+                    Could not load database
+                </div>
+                <div>
+                    Check your connection and try again.
+                </div>
+                <button
+                    onclick="loadDatabase()"
+                    style="
+                        margin-top:8px;
+                        padding:10px 24px;
+                        background:#d4a017;
+                        color:#000;
+                        font-weight:700;
+                        border:none;
+                        border-radius:8px;
+                        cursor:pointer;
+                        font-size:13px;
+                    "
+                >
+                    Retry
+                </button>
+            </div>
+        `;
+
+        resultsCount.textContent =
+        'Failed to load';
+
+    }
+
+}
+
+let currentSet = null;
+let currentImageIndex = 0;
+
+function navigateImage(dir){
+
+    if(!currentSet) return;
+
+    const total =
+    currentSet.images.length;
+
+    currentImageIndex =
+    (currentImageIndex + dir + total) % total;
+
+    const newSrc =
+    currentSet.images[currentImageIndex];
+
+    document
+    .getElementById('previewImg')
+    .src = newSrc;
+
+    document
+    .querySelectorAll('.thumb-img')
+    .forEach((t, i) => {
+        t.classList.toggle(
+            'active',
+            i === currentImageIndex
+        );
+    });
+
+}
+
+const cards=document.getElementById('cards');
+
+// Uses img load test — no CORS issues
+function checkSetImages(set){
+  return new Promise(resolve=>{
+    let loaded = 0;
+    let failed = 0;
+    const total = set.images.length;
+    set.images.forEach(src=>{
+      const img = new Image();
+      img.onload = ()=>{
+        loaded++;
+        if(loaded+failed===total)
+          resolve(failed===0);
+      };
+      img.onerror = ()=>{
+        failed++;
+        if(loaded+failed===total)
+          resolve(false);
+      };
+      img.src = src;
+    });
+  });
+}
+
+function renderCards(data){
+
+    cards.innerHTML='';
+
+    if(data.length === 0){
+
+        cards.innerHTML = `
+            <div style="
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                padding:60px 20px;
+                gap:12px;
+                color:#888;
+                font-size:14px;
+                text-align:center;
+            ">
+                <div style="font-size:32px;">&#128269;</div>
+                <div style="
+                    color:#d4a017;
+                    font-weight:600;
+                    font-size:15px;
+                ">
+                    No sets found
+                </div>
+                <div>
+                    Try adjusting or clearing your filters.
+                </div>
+                <button onclick="document.getElementById('resetBtn').click()" style="
+                    margin-top:8px;
+                    padding:10px 24px;
+                    background:#d4a017;
+                    color:#000;
+                    font-weight:700;
+                    border:none;
+                    border-radius:8px;
+                    cursor:pointer;
+                    font-size:13px;
+                ">
+                    Reset Filters
+                </button>
+            </div>
+        `;
+
+        document.getElementById('resultsCount')
+        .textContent = '0 Items Found';
+
+        return;
+
+    }
+
+    data.forEach(set=>{
+
+        const card=document.createElement('div');
+
+        card.className='card';
+
+        card.innerHTML=`
+        <img src="${set.images[0]}">
+
+        <div class="card-content">
+
+            <div class="card-title">
+                ${set.title}
+            </div>
+
+            <div class="card-sub">
+                ${set.imagesCount} Images
+            </div>
+
+            <div class="card-sub">
+                Generic Image Set
+            </div>
+
+            <div class="set-status">
+                Checking...
+            </div>
+
+            <button class="view-btn">
+                VIEW DETAILS →
+            </button>
+
+        </div>
+        `;
+
+        const statusElement =
+            card.querySelector('.set-status');
+
+            checkSetImages(set)
+            .then(complete=>{
+
+        if(complete){
+
+            statusElement.innerHTML =
+            '🟢 Complete';
+
+            statusElement.style.color =
+            '#00d26a';
+
+    }
+    else{
+
+        statusElement.innerHTML =
+        '🔴 Missing Images';
+
+        statusElement.style.color =
+        '#ff4d4d';
+
+    }
+
+});
+       
+        card.onclick=()=>{
+
+            currentSet = set;
+            currentImageIndex = 0;
+
+            document.getElementById('prevImgBtn').style.display = 'flex';
+            document.getElementById('nextImgBtn').style.display = 'flex';
+
+            document.getElementById('previewImg').src=set.images[0];
+
+            const cleanTitle =
+            set.title
+            .replace(/_SET\d+$/i,'')
+            .replace(/_/g,' ');
+
+            document.getElementById('title').textContent =cleanTitle;
+
+            const setMatch =set.title.match(/SET\d+/i);
+
+            document.getElementById('setBadge').textContent =setMatch ? setMatch[0] : '';
+
+            document.getElementById('metaSetId').textContent =setMatch ? setMatch[0] : '';
+
+            document.getElementById('metaGroup').textContent =set.group || '';
+
+            document.getElementById('metaImages').textContent =set.imagesCount || 0;
+            document.getElementById('position').textContent=set.position;
+            document.getElementById('rotorType').textContent=set.rotorType;
+            document.getElementById('images').textContent=set.imagesCount;
+
+const statusEl =
+document.getElementById('status');
+
+statusEl.textContent = 'Checking...';
+statusEl.style.color = '#888';
+statusEl.style.fontWeight = '400';
+
+checkSetImages(set).then(complete => {
+
+    if(complete){
+        statusEl.textContent = '🟢 ' + set.status;
+        statusEl.style.color = '#00d26a';
+        statusEl.style.fontWeight = '700';
+    } else {
+        statusEl.textContent = '🔴 Missing Images';
+        statusEl.style.color = '#ff4d4d';
+        statusEl.style.fontWeight = '700';
+    }
+
+});
+
+            document.getElementById('lugHoles').textContent=set.lugHoles;
+            document.getElementById('rotorPair').textContent=set.rotorPair;
+            document.getElementById('brakePads').textContent=set.brakePads;
+            document.getElementById('hardware').textContent=set.hardware;
+            
+            document.getElementById(
+                    'previewPrefix'
+            ).textContent =
+            set.prefix;
+
+            const thumbColumn =
+            document.getElementById('thumbnailColumn');
+
+            thumbColumn.innerHTML='';
+
+            set.images.forEach((image,index)=>{
+
+                const thumb=document.createElement('img');
+
+                thumb.src=image;
+
+                thumb.className='thumb-img';
+
+                thumb.onclick=()=>{
+
+                    currentImageIndex = index;
+
+                    document.getElementById('previewImg').src=image;
+
+                    document
+                    .querySelectorAll('.thumb-img')
+                    .forEach(t=>t.classList.remove('active'));
+
+                    thumb.classList.add('active');
+                };
+
+                thumbColumn.appendChild(thumb);
+
+                if(index===0){
+                    thumb.classList.add('active');
+                }
+
+            });
+
+        };
+
+        cards.appendChild(card);
+
+    });
+
+        document.getElementById('resultsCount').textContent =
+        data.length + " Items Found";
+
+    if(cards.firstChild){
+        cards.firstChild.click();
+    }
+
+}
+
+loadDatabase();
+
+document
+.getElementById('filterSetId')
+.addEventListener('keydown', e=>{
+    if(e.key === 'Enter'){
+        document
+        .getElementById('searchBtn')
+        .click();
+    }
+});
+
+ document.getElementById('searchBtn')
+ .addEventListener('click',()=>{
+
+    const rotorPair =
+    document.getElementById('filterRotorPair').value;
+
+    const lugHoles =
+    document.getElementById('filterLugHoles').value;
+
+    const brakePads =
+    document.getElementById('filterBrakePads').value;
+
+    const hardware =
+    document.getElementById('filterHardware').value;
+
+    const setSearch =
+    document.getElementById('filterSetId').value.trim().toLowerCase();
+
+    const filtered =
+    rotorSets.filter(set=>{
+
+        return (
+
+        (
+     setSearch === ""
+
+     ||
+
+      set.folder
+     .toLowerCase()
+     .includes(setSearch)
+
+     ||
+
+     set.prefix
+     .toLowerCase()
+     .includes(setSearch)
+
+     ||
+
+     set.title
+     .toLowerCase()
+     .includes(setSearch)
+ )
+
+ &&
+
+            (rotorPair==="All" ||
+            set.rotorPair == parseInt(rotorPair))
+
+            &&
+
+            (lugHoles==="All" ||
+            set.lugHoles == parseInt(lugHoles))
+
+            &&
+
+            (brakePads==="All" ||
+            set.brakePads===brakePads)
+
+            &&
+
+            (hardware==="All" ||
+            set.hardware===hardware)
+
+        );
+
+    });
+
+    renderCards(filtered);
+
+});
+
+function updateRenamePreview(){
+
+    const sku =
+    document
+    .getElementById('renameSku')
+    .value
+    .trim();
+
+    const suffix =
+    document
+    .getElementById('renameSuffix')
+    .value
+    .trim() || 'v2';
+
+    const preview =
+    document
+    .getElementById('renamePreview');
+
+    if(!sku){
+
+        preview.innerHTML =
+        'Showing 0 files';
+
+        return;
+
+    }
+
+    const files = [
+
+        `${sku}_master_${suffix}.JPG`,
+        `${sku}_02_${suffix}.JPG`,
+        `${sku}_03_${suffix}.JPG`,
+        `${sku}_04_${suffix}.JPG`,
+        `${sku}_05_${suffix}.JPG`,
+        `${sku}_06_${suffix}.JPG`,
+        `${sku}_07_${suffix}.JPG`
+
+    ];
+
+    preview.innerHTML =
+
+        `Showing ${files.length} files<br><br>` +
+
+        files.join('<br>');
+
+}
+
+document
+.getElementById('renameSku')
+.addEventListener(
+'input',
+updateRenamePreview
+);
+
+document
+.getElementById('renameSuffix')
+.addEventListener(
+'input',
+updateRenamePreview
+);
+
+document
+.getElementById('renameImagesBtn')
+.addEventListener('click',()=>{
+
+    if(!currentSet){
+
+        alert('Select a set first');
+
+        return;
+
+    }
+
+    document
+    .getElementById('renameModal')
+    .style.display='block';
+
+});
+
+document
+.getElementById('closeRenameModal')
+.addEventListener('click',()=>{
+
+    document
+    .getElementById('renameModal')
+    .style.display='none';
+
+});
+
+const renameModal =
+document.getElementById('renameModal');
+
+const renameHeader =
+document.getElementById('renameModalHeader');
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+renameHeader.addEventListener(
+'mousedown',
+e=>{
+
+    isDragging = true;
+
+    offsetX =
+    e.clientX -
+    renameModal.offsetLeft;
+
+    offsetY =
+    e.clientY -
+    renameModal.offsetTop;
+
+}
+);
+
+document.addEventListener(
+'mousemove',
+e=>{
+
+    if(!isDragging) return;
+
+    renameModal.style.left =
+    (e.clientX - offsetX) + 'px';
+
+    renameModal.style.top =
+    (e.clientY - offsetY) + 'px';
+
+    renameModal.style.transform =
+    'none';
+
+}
+);
+
+document.addEventListener(
+'mouseup',
+()=>{
+
+    isDragging = false;
+
+}
+);
+
+document
+.getElementById('downloadRenamedZipBtn')
+.addEventListener('click', async ()=>{
+
+    if(!currentSet){
+
+        alert('Select a set first');
+
+        return;
+
+    }
+
+    const sku =
+    document
+    .getElementById('renameSku')
+    .value
+    .trim();
+
+    if(!sku){
+
+        alert('SKU is required');
+
+        return;
+
+    }
+
+    const suffix =
+    document
+    .getElementById('renameSuffix')
+    .value
+    .trim() || 'v2';
+
+    const zip =
+    new JSZip();
+
+    for(let i=0;i<currentSet.images.length;i++){
+
+        try{
+
+            const response =
+            await fetch(
+                currentSet.images[i]
+            );
+
+            const blob =
+            await response.blob();
+
+            let fileName;
+
+            if(i===0){
+
+                fileName =
+                `${sku}_master_${suffix}.JPG`;
+
+            }
+            else{
+
+                const count =
+                String(i+1)
+                .padStart(2,'0');
+
+                fileName =
+                `${sku}_${count}_${suffix}.JPG`;
+
+            }
+
+            zip.file(
+                fileName,
+                blob
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                'Failed:',
+                currentSet.images[i]
+            );
+
+        }
+
+    }
+
+    const content =
+    await zip.generateAsync({
+        type:'blob'
+    });
+
+    const link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(content);
+
+    link.download =
+    `${sku}.zip`;
+
+    link.click();
+
+});
+
+document.getElementById('resetBtn')
+.addEventListener('click',()=>{
+
+    document.getElementById('filterRotorPair').value='All';
+
+    document.getElementById('filterLugHoles').value='All';
+
+    document.getElementById('filterBrakePads').value='All';
+
+    document.getElementById('filterHardware').value='All';
+
+    document.getElementById('filterSetId').value='';
+
+    renderCards(rotorSets);
+
+});
+
+document
+.getElementById('downloadZipBtn')
+.addEventListener('click', async ()=>{
+
+    if(!currentSet){
+
+        alert('No Set Selected');
+
+        return;
+
+    }
+
+const btn =
+document.getElementById('downloadZipBtn');
+
+const total =
+currentSet.images.length;
+
+btn.disabled = true;
+
+const zip = new JSZip();
+
+const folder =
+zip.folder(currentSet.prefix);
+
+for(let i = 0; i < currentSet.images.length; i++){
+
+    const imageUrl =
+    currentSet.images[i];
+
+    btn.textContent =
+    `DOWNLOADING... (${i + 1}/${total})`;
+
+    try{
+
+        const response =
+        await fetch(imageUrl);
+
+        const blob =
+        await response.blob();
+
+        const fileName =
+        imageUrl.split('/').pop();
+
+        folder.file(fileName, blob);
+
+    }
+    catch(error){
+
+        console.error(
+            'Failed:',
+            imageUrl
+        );
+
+    }
+
+}
+
+btn.textContent =
+'ZIPPING...';
+
+const zipContent =
+await zip.generateAsync({
+    type:'blob'
+});
+
+const link =
+document.createElement('a');
+
+link.href =
+URL.createObjectURL(zipContent);
+
+link.download =
+currentSet.prefix + '.zip';
+
+link.click();
+
+btn.textContent =
+'DOWNLOAD ZIP';
+
+btn.disabled = false;
+
+});
+
+const importPanel =
+document.getElementById('importPanel');
+
+const importHeader =
+document.getElementById('importHeader');
+
+let importDragging = false;
+let importOffsetX = 0;
+let importOffsetY = 0;
+
+importHeader.addEventListener(
+'mousedown',
+e=>{
+
+    importDragging = true;
+
+    importOffsetX =
+    e.clientX -
+    importPanel.offsetLeft;
+
+    importOffsetY =
+    e.clientY -
+    importPanel.offsetTop;
+
+}
+);
+
+document.addEventListener(
+'mousemove',
+e=>{
+
+    if(!importDragging) return;
+
+    importPanel.style.left =
+    (e.clientX - importOffsetX) + 'px';
+
+    importPanel.style.top =
+    (e.clientY - importOffsetY) + 'px';
+
+    importPanel.style.transform =
+    'none';
+
+}
+);  
+
+document.addEventListener(
+'mouseup',
+()=>{
+
+    importDragging = false;
+
+});
+
+document
+.getElementById('importSetsBtn')
+.addEventListener('click',()=>{
+
+    importPanel.style.display='flex';
+
+});
+
+document
+.getElementById('closeImportPanel')
+.addEventListener('click',()=>{
+
+    importPanel.style.display='none';
+
+});
+
+document
+.getElementById('addRowBtn')
+.addEventListener('click',()=>{
+
+    const row =
+    document.createElement('div');
+
+    row.className =
+    'import-row';
+
+    row.innerHTML = `
+
+    <input
+        type="text"
+        placeholder="SET0006"
+        class="set-id"
+    >
+
+    <select class="group">
+
+        <option>BR2WP</option>
+        <option>BR2WPH</option>
+        <option>BRWP</option>
+        <option>BRWPH</option>
+
+    </select>
+
+    <input
+        type="text"
+        class="prefix"
+        readonly
+    >
+
+    <select class="rotor-type">
+
+        <option>Plain</option>
+        <option>Slotted</option>
+        <option>Drilled</option>
+        <option>Drilled & Slotted</option>
+
+    </select>
+
+    <select class="rotor-pair">
+
+        <option>1</option>
+        <option selected>2</option>
+
+    </select>
+
+    <select class="position">
+
+        <option selected>
+            Left and Right
+        </option>
+
+        <option>Left</option>
+        <option>Right</option>
+
+    </select>
+
+    <select class="lug-holes">
+
+        <option>4</option>
+        <option selected>5</option>
+        <option>6</option>
+        <option>8</option>
+        <option>10</option>
+        <option>12</option>
+
+    </select>
+
+    <select class="brake-pads">
+
+        <option selected>Yes</option>
+        <option>No</option>
+
+    </select>
+
+    <select class="hardware">
+
+        <option>No</option>
+        <option>Yes</option>
+
+    </select>
+
+    <div class="img-fixed">
+        7
+    </div>
+
+    <div class="delete-row">
+        🗑
+    </div>
+
+    `;
+
+    const setId =
+    row.querySelector('.set-id');
+
+    const group =
+    row.querySelector('.group');
+
+    const prefix =
+    row.querySelector('.prefix');
+
+    function updatePrefix(){
+
+        const raw = setId.value.trim();
+
+        if(!raw) return;
+
+        const numStr = raw.replace(/^SET/i,'');
+        const num = parseInt(numStr, 10);
+
+        if(isNaN(num)) return;
+
+        const paddedId =
+            'SET' + String(num).padStart(4,'0');
+
+        prefix.value =
+            group.value + '-' + paddedId;
+
+    }
+
+    setId.addEventListener(
+        'input',
+        updatePrefix
+    );
+
+    group.addEventListener(
+        'change',
+        updatePrefix
+    );
+
+    row
+    .querySelector('.delete-row')
+    .addEventListener(
+        'click',
+        ()=>row.remove()
+    );
+
+    document
+    .getElementById('importRows')
+    .appendChild(row);
+
+});
+
+document
+.getElementById('resetImportBtn')
+.addEventListener('click',()=>{
+
+    if(
+        !confirm(
+            'Reset Import Form?'
+        )
+    ){
+        return;
+    }
+
+    document
+    .getElementById('importRows')
+    .innerHTML = '';
+
+    uploadedDatabase = [];
+
+});
+
+</script>
+
+</body>
+</html>
