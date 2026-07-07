@@ -1,64 +1,69 @@
 import time
+import re
 from pathlib import Path
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-import generator
-import git_manager
-import notifier
+ROOT = Path(__file__).resolve().parent.parent
 
-WATCH_PATH = Path(__file__).resolve().parent.parent
+processed = set()
 
 
-class VaultHandler(FileSystemEventHandler):
+class RotorWatcher(FileSystemEventHandler):
 
-    def __init__(self):
+    def on_created(self, event):
 
-        self.last_event = 0
-
-    def on_any_event(self, event):
-
-        if event.is_directory:
+        if not event.is_directory:
             return
 
-        now = time.time()
+        folder = Path(event.src_path)
 
-        if now - self.last_event < 3:
+        name = folder.name
+
+        if not re.match(r".+-SET\d+$", name):
             return
 
-        self.last_event = now
+        if name in processed:
+            return
 
-        print("\nChanges detected...")
+        processed.add(name)
 
-        time.sleep(3)
+        print()
+        print("=" * 50)
+        print("New SET detected")
+        print(name)
+        print("=" * 50)
 
-        generator.generate_database()
+        print("Waiting for copy to finish...")
+        time.sleep(5)
 
-        git_manager.push_changes()
+        from generator import generate_database
+        from git_manager import commit_and_push
 
-        notifier.notify("RotorVault", "Repository updated successfully.")
+        generate_database()
+
+        commit_and_push()
 
 
 observer = Observer()
 
 observer.schedule(
-    VaultHandler(),
-    str(WATCH_PATH),
+    RotorWatcher(),
+    str(ROOT),
     recursive=True
 )
 
 observer.start()
 
-print("Watching repository...")
+print("RotorVault Automation is running...")
+print("Waiting for new SET folders...")
 
 try:
-
     while True:
         time.sleep(1)
 
 except KeyboardInterrupt:
-
     observer.stop()
 
 observer.join()
