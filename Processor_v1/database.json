@@ -11,7 +11,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET01",
-    "prefix": "B2RWPS0001"
+    "prefix": "BR2WPS0001"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET02",
@@ -25,7 +25,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET02",
-    "prefix": "B2RWPS0002"
+    "prefix": "BR2WPS0002"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET03",
@@ -53,7 +53,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET04",
-    "prefix": "B2RWPS0004"
+    "prefix": "BR2WPS0004"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET05",
@@ -81,7 +81,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET06",
-    "prefix": "B2RWPS0006"
+    "prefix": "BR2WPS0006"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET07",
@@ -95,7 +95,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET07",
-    "prefix": "B2RWPS0007"
+    "prefix": "BR2WPS0007"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET08",
@@ -109,7 +109,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET08",
-    "prefix": "B2RWPS0008"
+    "prefix": "BR2WPS0008"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET09",
@@ -123,7 +123,7 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET09",
-    "prefix": "B2RWPS0009"
+    "prefix": "BR2WPS0009"
   },
   {
     "title": "Brake Rotor 2 Pair with Pads_SET10",
@@ -151,22 +151,110 @@
     "status": "Generic Images",
     "group": "BR2WP",
     "folder": "BR2WP-SET11",
-    "prefix": "B2RWPS0011"
+    "prefix": "BR2WPS0011"
   },
+
+##BR2WPH##
   {
-    "title": "Brake Rotor Pair with Pads_SET06",
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET01",
     "position": "Left and Right",
     "rotorType": "Plain",
-    "rotorPair": 1,
+    "rotorPair": 2,
     "brakePads": "Yes",
-    "hardware": "No",
+    "hardware": "Yes",
     "imagesCount": 7,
     "lugHoles": 6,
     "status": "Generic Images",
     "group": "BRWP",
-    "folder": "BRWP-SET06",
-    "prefix": "BRWPS0006"
+    "folder": "BR2WPH-SET01",
+    "prefix": "BR2WPS0001"
  },
+ {
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET02",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 2,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 5,
+    "status": "Generic Images",
+    "group": "BRWP",
+    "folder": "BR2WPH-SET02",
+    "prefix": "BR2WPS0002"
+ },
+  {
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET03",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 2,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 8,
+    "status": "Generic Images",
+    "group": "BRWP",
+    "folder": "BR2WPH-SET03",
+    "prefix": "BR2WPS0003"
+ },
+  {
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET04",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 2,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 4,
+    "status": "Generic Images",
+    "group": "BRWP",
+    "folder": "BR2WPH-SET04",
+    "prefix": "BR2WPS0004"
+ },
+  {
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET05",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 2,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 5,
+    "status": "Generic Images",
+    "group": "BR2WP",
+    "folder": "BR2WPH-SET05",
+    "prefix": "BR2WPS0005"
+ },
+  {
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET06",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 2,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 5,
+    "status": "Generic Images",
+    "group": "BR2WP",
+    "folder": "BR2WPH-SET06",
+    "prefix": "BR2WPS0006"
+ },
+  {
+    "title": "Brake Rotor 2 Pair with Pads and Hardware_SET07",
+    "position": "Left and Right",
+    "rotorType": "Plain",
+    "rotorPair": 2,
+    "brakePads": "Yes",
+    "hardware": "Yes",
+    "imagesCount": 7,
+    "lugHoles": 5,
+    "status": "Generic Images",
+    "group": "BR2WP",
+    "folder": "BR2WPH-SET07",
+    "prefix": "BR2WPS0007"
+ },
+  
+##BRWP##
  {
     "title": "Brake Rotor Pair with Pads and Hardware_SET01",
     "position": "Left and Right",
