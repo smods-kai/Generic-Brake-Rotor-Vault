@@ -154,7 +154,6 @@
     "prefix": "BR2WPS0011"
   },
 
-##BR2WPH##
   {
     "title": "Brake Rotor 2 Pair with Pads and Hardware_SET01",
     "position": "Left and Right",
@@ -253,8 +252,6 @@
     "folder": "BR2WPH-SET07",
     "prefix": "BR2WPS0007"
  },
-  
-##BRWP##
  {
     "title": "Brake Rotor Pair with Pads and Hardware_SET01",
     "position": "Left and Right",
