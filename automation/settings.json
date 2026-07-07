@@ -1,0 +1,27 @@
+{
+    "repository_name": "Generic-Brake-Rotor-Vault",
+
+    "images_per_set": 7,
+
+    "processor_folder": "Processor_v1",
+
+    "database_path": "Processor_v1/database.json",
+
+    "watch_extensions": [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".webp"
+    ],
+
+    "ignored_folders": [
+        ".git",
+        ".github",
+        ".vscode",
+        "__pycache__",
+        "automation",
+        "Processor_v1"
+    ],
+
+    "commit_message": "RotorVault Auto Sync"
+}
