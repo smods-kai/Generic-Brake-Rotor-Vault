@@ -1,0 +1,326 @@
+/*==================================================
+ROTORVAULT RC3 - RENAME MODAL
+==================================================*/
+
+.rename-modal{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(8px);
+
+    z-index:999999;
+
+}
+
+.rename-modal.show{
+
+    display:flex;
+
+}
+
+/*==================================================
+WINDOW
+==================================================*/
+
+.rename-window{
+
+    width:min(1650px,96vw);
+    height:min(900px,92vh);
+
+    background:#1A1D23;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 30px 90px rgba(0,0,0,.6);
+
+    animation:renamePopup .25s ease;
+
+}
+
+/*==================================================
+LAYOUT
+==================================================*/
+
+.rename-grid{
+
+    display:grid;
+
+    grid-template-columns:58% 42%;
+
+    width:100%;
+    height:100%;
+
+}
+
+/*==================================================
+LEFT
+==================================================*/
+
+.rename-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#101216;
+
+}
+
+.rename-image-area{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+}
+
+.rename-image-area img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+}
+
+/*==================================================
+THUMBNAILS
+==================================================*/
+
+.rename-thumbnail-strip{
+
+    display:flex;
+
+    gap:12px;
+
+    padding:18px;
+
+    overflow-x:auto;
+
+    background:#161A20;
+
+    border-top:1px solid rgba(255,255,255,.06);
+
+}
+
+.rename-thumbnail-strip img{
+
+    width:90px;
+
+    height:90px;
+
+    min-width:90px;
+
+    min-height:90px;
+
+    display:block;
+
+    object-fit:contain;
+
+    background:#FFFFFF;
+
+    border-radius:8px;
+
+    border:2px solid transparent;
+
+    cursor:pointer;
+
+}
+
+.rename-thumbnail-strip img:hover{
+
+    border-color:#D4AF37;
+
+}
+
+.rename-thumbnail-strip img.active{
+
+    border-color:#D4AF37;
+
+}
+
+/*==================================================
+RIGHT
+==================================================*/
+
+.rename-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:36px;
+
+    gap:18px;
+
+    overflow:hidden;
+
+}
+
+.rename-right h2{
+
+    color:#FFF;
+
+    font-size:32px;
+
+    margin:0;
+
+}
+
+.rename-right label{
+
+    color:#C8CDD6;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.rename-right input{
+
+    height:50px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#101317;
+
+    color:#FFF;
+
+    padding:0 16px;
+
+    font-size:15px;
+
+}
+
+/*==================================================
+PREVIEW
+==================================================*/
+
+.rename-preview-title{
+
+    color:#D4AF37;
+
+    font-weight:700;
+
+}
+
+.rename-preview{
+
+    flex:1;
+
+    min-height:320px;
+
+    background:#101317;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.05);
+
+    padding:16px;
+
+    overflow:auto;
+
+    font-family:Consolas, monospace;
+
+    font-size:13px;
+
+}
+
+/*==================================================
+BUTTON
+==================================================*/
+
+#renameDownload{
+
+    height:56px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#D4AF37;
+
+    color:#111;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+/*==================================================
+CLOSE
+==================================================*/
+
+#closeRename{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#2A303A;
+
+    color:#FFF;
+
+    cursor:pointer;
+
+}
+
+/*==================================================
+RESPONSIVE
+==================================================*/
+
+@media(max-width:1200px){
+
+    .rename-window{
+
+        width:96vw;
+
+        height:94vh;
+
+    }
+
+    .rename-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .rename-thumbnail-strip{
+
+        justify-content:flex-start;
+
+    }
+
+}

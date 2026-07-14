@@ -1,0 +1,551 @@
+/*==========================================================
+ RotorVault Processor v2
+ modal.css
+==========================================================*/
+
+/*==============================
+BACKGROUND
+==============================*/
+
+.preview-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.72);
+
+    backdrop-filter:blur(6px);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:opacity .25s ease;
+
+    z-index:999990;
+
+}
+
+.preview-modal.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+.preview-modal.show .preview-window{
+
+    transform:scale(1);
+
+}
+
+/*==============================
+WINDOW
+==============================*/
+
+.preview-window{
+
+    width:min(1700px,96vw);
+
+    height:min(900px,92vh);
+
+    background:#181B22;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    display:grid;
+
+    grid-template-columns:
+
+        48%
+
+        24%
+
+        28%;
+
+    box-shadow:
+
+    0 30px 80px rgba(0,0,0,.65);
+
+    position:relative;
+
+    animation:popup .25s ease;
+
+    transform:scale(.96);
+
+    transition:
+
+    transform .25s ease;
+
+}
+
+/*==============================
+LEFT
+==============================*/
+
+.preview-left{
+
+    background:#101216;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+}
+
+/*==============================
+BIG IMAGE
+==============================*/
+
+.preview-image-wrapper{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+}
+
+.preview-image-wrapper img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+}
+
+/*==============================
+THUMBNAILS
+==============================*/
+
+.thumbnail-strip{
+
+    height:150px;
+
+    display:flex;
+
+    gap:14px;
+
+    overflow-x:auto;
+
+    padding:18px;
+
+    background:#16191E;
+
+}
+
+.thumbnail-strip img{
+
+    width:125px;
+
+    height:125px;
+
+    object-fit:contain;
+
+    border-radius:12px;
+
+    background:#232730;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    border:2px solid transparent;
+
+}
+
+.thumbnail-strip img:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.thumbnail-strip img.active{
+
+    border-color:#D4AF37;
+
+}
+
+/*==============================
+CENTER
+==============================*/
+
+.preview-right{
+
+    padding:28px;
+
+    overflow:auto;
+
+    background:#1C2028;
+
+}
+
+.preview-right h2{
+
+    font-size:28px;
+
+    margin-bottom:25px;
+
+    color:#ffffff;
+
+}
+
+/*==============================
+SPECIFICATIONS
+==============================*/
+
+.specifications{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.spec-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 18px;
+
+    border-radius:10px;
+
+    background:#252B35;
+
+}
+
+.spec-row span{
+
+    color:#B7BEC9;
+
+}
+
+.spec-row strong{
+
+    color:#D4AF37;
+
+}
+
+/*==============================
+BUTTONS
+==============================*/
+
+.preview-buttons{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    margin-top:30px;
+
+}
+
+.preview-buttons button{
+
+    height:54px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+#renameButton{
+
+    background:#D4AF37;
+
+    color:#111;
+
+}
+
+#downloadButton{
+
+    background:#343C49;
+
+    color:#fff;
+
+}
+
+.preview-buttons button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/*==============================
+RELATED SETS
+==============================*/
+
+.preview-related{
+
+    background:#111418;
+
+    border-left:1px solid rgba(255,255,255,.05);
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.preview-related h3{
+
+    padding:22px;
+
+    font-size:18px;
+
+    letter-spacing:1px;
+
+    color:#D4AF37;
+
+}
+
+.related-list{
+
+    flex:1;
+
+    overflow:auto;
+
+    padding:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+/*==============================
+RELATED CARD
+==============================*/
+
+.related-card{
+
+    display:flex;
+
+    gap:14px;
+
+    background:#20252D;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.related-card:hover{
+
+    background:#2B323D;
+
+    transform:translateX(4px);
+
+}
+
+.related-card img{
+
+    width:85px;
+
+    height:85px;
+
+    object-fit:contain;
+
+}
+
+.related-info{
+
+    flex:1;
+
+}
+
+.related-title{
+
+    color:#fff;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+}
+
+.related-group{
+
+    color:#D4AF37;
+
+    font-size:13px;
+
+}
+
+/*==============================
+CLOSE
+==============================*/
+
+.modal-close{
+
+    position:absolute;
+
+    top:18px;
+
+    right:20px;
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#2C323C;
+
+    color:#fff;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    z-index:100;
+
+}
+
+.modal-close:hover{
+
+    background:#D4AF37;
+
+    color:#111;
+
+    transform:rotate(90deg);
+
+}
+
+/*==============================
+SCROLLBAR
+==============================*/
+
+.preview-right::-webkit-scrollbar,
+
+.related-list::-webkit-scrollbar,
+
+.thumbnail-strip::-webkit-scrollbar{
+
+    height:8px;
+
+    width:8px;
+
+}
+
+.preview-right::-webkit-scrollbar-thumb,
+
+.related-list::-webkit-scrollbar-thumb,
+
+.thumbnail-strip::-webkit-scrollbar-thumb{
+
+    background:#D4AF37;
+
+    border-radius:50px;
+
+}
+
+/*==============================
+ANIMATION
+==============================*/
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.92);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/*=========================================
+Preview Loading
+=========================================*/
+
+#previewImage{
+
+    transition:
+        opacity .20s ease,
+        transform .20s ease;
+
+}
+
+#previewImage.loading{
+
+    opacity:.25;
+
+}
+
+#previewImage.loaded{
+
+    opacity:1;
+
+}
+
+/*=========================================
+Thumbnail Loading
+=========================================*/
+
+.thumbnail-strip img {
+    opacity: 1;
+    transition: opacity .2s ease;
+}
+
+.thumbnail-strip img.loaded{
+
+    opacity:1;
+
+}
