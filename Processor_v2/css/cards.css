@@ -1,0 +1,650 @@
+/*==========================================================
+ RotorVault Processor v2
+ cards.css
+==========================================================*/
+
+.cards-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+
+    gap:22px;
+
+}
+
+/*==========================================================
+Card
+==========================================================*/
+
+.card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:#181B20;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    cursor:pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.22);
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#D4AF37;
+
+    box-shadow:
+
+        0 18px 50px rgba(0,0,0,.40);
+
+}
+
+/*==========================================================
+Image
+==========================================================*/
+
+.card-image{
+
+    position:relative;
+
+    width:100%;
+
+    aspect-ratio:1.15/1;
+
+    overflow:hidden;
+
+    background:#101215;
+
+}
+
+.card-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    padding:26px;
+
+    transition:
+        transform .35s ease,
+        filter .35s ease;
+
+}
+
+.card:hover img{
+
+    transform:scale(1.08);
+
+    filter:drop-shadow(0 12px 18px rgba(0,0,0,.35));
+
+}
+
+/*==========================================================
+Overlay
+==========================================================*/
+
+.card-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+
+        transparent,
+
+        rgba(0,0,0,.08),
+
+        rgba(0,0,0,.25)
+
+    );
+
+    pointer-events:none;
+
+}
+
+/*==========================================================
+Content
+==========================================================*/
+
+.card-content{
+
+    padding:18px;
+
+}
+
+.card-title{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+    line-height:28px;
+
+    min-height:56px;
+
+}
+
+.card-id{
+
+    margin-top:8px;
+
+    color:#D4AF37;
+
+    font-weight:600;
+
+    font-size:14px;
+
+}
+
+.card-group{
+
+    margin-top:14px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:7px 14px;
+
+    border-radius:50px;
+
+    background:#242A33;
+
+    color:#D4AF37;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+/*==========================================================
+Information
+==========================================================*/
+
+.card-info{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    margin-top:18px;
+
+}
+
+.info-box{
+
+    background:#222831;
+
+    border:1px solid rgba(255,255,255,.05);
+
+    border-radius:12px;
+
+    padding:12px;
+
+    text-align:center;
+
+}
+
+.info-label{
+
+    display:block;
+
+    color:#8F96A3;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.info-value{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+/*==========================================================
+Footer
+==========================================================*/
+
+.card-footer{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:18px;
+
+    padding-top:16px;
+
+    border-top:1px solid rgba(255,255,255,.06);
+
+}
+
+.image-count{
+
+    color:#9EA6B2;
+
+    font-weight:600;
+
+    font-size:13px;
+
+}
+
+.status{
+
+    padding:7px 14px;
+
+    border-radius:999px;
+
+    background:#1E5B3A;
+
+    color:#A9FFD0;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+/*==========================================================
+Skeleton Loading
+==========================================================*/
+
+.card.skeleton{
+
+    pointer-events:none;
+
+}
+
+.card.skeleton .card-image,
+
+.card.skeleton .card-title,
+
+.card.skeleton .card-id,
+
+.card.skeleton .info-box,
+
+.card.skeleton .status{
+
+    background:linear-gradient(
+
+        90deg,
+
+        #1A1D23 0%,
+
+        #2A2F37 50%,
+
+        #1A1D23 100%
+
+    );
+
+    background-size:400%;
+
+    animation:skeleton 1.4s infinite;
+
+}
+
+.card.skeleton .card-title{
+
+    height:22px;
+
+    border-radius:6px;
+
+}
+
+.card.skeleton .card-id{
+
+    margin-top:10px;
+
+    height:16px;
+
+    border-radius:5px;
+
+}
+
+.card.skeleton .status{
+
+    height:28px;
+
+}
+
+@keyframes skeleton{
+
+    from{
+
+        background-position:100%;
+
+    }
+
+    to{
+
+        background-position:-100%;
+
+    }
+
+}
+
+/*==========================================================
+Loading Animation
+==========================================================*/
+
+.card{
+
+    animation:fadeCard .35s ease;
+
+}
+
+@keyframes fadeCard{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(18px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.card-image img{
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+
+}
+
+.card-image img.loading{
+
+    opacity:.2;
+
+}
+
+.card-image img.loaded{
+
+    opacity:1;
+
+}
+
+/*====================================================
+Skeleton Cards
+====================================================*/
+
+.skeleton-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    border:1px solid #e8e8e8;
+
+    min-height:380px;
+
+}
+
+.skeleton-image{
+
+    height:220px;
+
+    background:linear-gradient(
+
+        90deg,
+
+        #efefef 25%,
+
+        #f7f7f7 50%,
+
+        #efefef 75%
+
+    );
+
+    background-size:400% 100%;
+
+    animation:skeletonLoading 1.2s infinite;
+
+}
+
+.skeleton-line{
+
+    height:14px;
+
+    margin:14px 18px;
+
+    border-radius:6px;
+
+    background:linear-gradient(
+
+        90deg,
+
+        #efefef 25%,
+
+        #f7f7f7 50%,
+
+        #efefef 75%
+
+    );
+
+    background-size:400% 100%;
+
+    animation:skeletonLoading 1.2s infinite;
+
+}
+
+.skeleton-line.short{
+
+    width:45%;
+
+}
+
+.skeleton-line.medium{
+
+    width:70%;
+
+}
+
+.skeleton-line.long{
+
+    width:90%;
+
+}
+
+@keyframes skeletonLoading{
+
+    0%{
+
+        background-position:100% 0;
+
+    }
+
+    100%{
+
+        background-position:-100% 0;
+
+    }
+
+}
+
+/*====================================================
+Empty State
+====================================================*/
+
+.empty-state{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:80px 20px;
+
+}
+
+.empty-icon{
+
+    font-size:64px;
+
+    margin-bottom:20px;
+
+}
+
+.empty-state h2{
+
+    margin-bottom:12px;
+
+}
+
+.empty-state p{
+
+    color:#777;
+
+    margin-bottom:25px;
+
+}
+
+.empty-state button{
+
+    padding:12px 28px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+/*=========================================
+Card Hover
+=========================================*/
+
+.card{
+
+    transition:
+
+        transform .25s ease,
+
+        box-shadow .25s ease;
+
+}
+
+.card:hover{
+
+    transform:
+
+        translateY(-6px);
+
+}
+
+@keyframes spinnerRotate{
+
+    from{
+
+        transform:rotate(0);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+.spinner{
+
+    animation:
+
+        spinnerRotate 1s linear infinite;
+
+}
+
+/*=========================================
+Premium Meta
+=========================================*/
+
+.card-meta{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:16px;
+
+}
+
+.group-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    background:#242A33;
+
+    color:#D4AF37;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}

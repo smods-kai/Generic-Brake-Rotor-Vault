@@ -1,0 +1,33 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
+    },
+    {
+      "source": "/database.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/repository.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
